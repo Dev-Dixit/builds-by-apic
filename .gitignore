@@ -1,0 +1,6 @@
+node_modules
+dist
+*.local
+
+# local study copies of the reference site (not for publishing)
+study-assets/

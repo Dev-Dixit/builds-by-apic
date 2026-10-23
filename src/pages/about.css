@@ -1,0 +1,178 @@
+.page--about {
+  background: #fff;
+}
+
+/* Fixed night-sky backdrop behind the intro and fly-through */
+.about-sky {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(100% - 520px);
+  background: linear-gradient(180deg, #6157c9 0%, #7970cc 35%, #b8bffe 100%);
+  pointer-events: none;
+}
+
+.about-sky .stars {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.about-sky__haze {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 30% at 25% 15%, rgba(200, 160, 255, 0.45), transparent 70%),
+    radial-gradient(35% 25% at 80% 40%, rgba(220, 200, 255, 0.35), transparent 70%),
+    radial-gradient(45% 30% at 30% 70%, rgba(210, 190, 255, 0.35), transparent 70%);
+  filter: blur(10px);
+}
+
+.about-intro {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+.about-intro__lead {
+  max-width: 1140px;
+  font-size: 1.8rem;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 20px rgba(60, 40, 160, 0.25);
+}
+
+.about-intro__lead strong {
+  font-weight: 700;
+}
+
+.about-intro__hint {
+  font-size: 1.15rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---------- Fly-through ---------- */
+
+.fly {
+  position: relative;
+}
+
+.fly.is-live {
+  height: calc(var(--chapters) * 140vh);
+}
+
+.fly__stage {
+  position: relative;
+}
+
+.fly.is-live .fly__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fly.is-live .chapter {
+  position: absolute;
+  inset: 0;
+  opacity: var(--op, 0);
+  transform: scale(var(--scale, 0.2));
+  filter: blur(var(--blur, 0));
+  will-change: transform, opacity, filter;
+}
+
+.fly.is-live .chapter__photo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(140px, 15vw, 230px);
+  transform: translate(-50%, -50%) translate(calc(var(--tx) * var(--spread, 0)), calc(var(--ty) * var(--spread, 0)))
+    rotate(calc(var(--r) * var(--spread, 0)));
+}
+
+.fly.is-live .chapter__text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(560px, 80vw);
+  transform: translate(-50%, -50%);
+  opacity: var(--text, 0);
+}
+
+.chapter__text {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.chapter__heading {
+  margin-bottom: 4px;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Lite mode: chapters become regular sections */
+.fly.is-static .chapter {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fly.is-static .chapter__photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 28px;
+}
+
+.fly.is-static .chapter__photo:nth-child(odd) .polaroid {
+  --rot: -3deg;
+}
+
+.fly.is-static .chapter__photo:nth-child(even) .polaroid {
+  --rot: 3deg;
+}
+
+.fly.is-static .chapter__text {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.about-end {
+  position: relative;
+  padding-top: 80px;
+}
+
+.about-end__clouds {
+  left: -10%;
+  right: -10%;
+  top: -200px;
+  height: 320px;
+}
+
+@media (max-width: 809px) {
+  .about-intro__lead {
+    font-size: 1.3rem;
+  }
+  .fly.is-live .chapter__photo {
+    width: 128px;
+  }
+  .fly.is-live .chapter__photo .polaroid {
+    padding: 6px 6px 0;
+  }
+  .fly.is-live .chapter__photo .polaroid__caption {
+    font-size: 1rem;
+    min-height: 28px;
+  }
+}

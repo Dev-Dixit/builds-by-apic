@@ -1,0 +1,73 @@
+/*
+ * Display and marquee faces.
+ *
+ * The reference sets its headings in "against" (177Studio) and its marquee in "ROTHEFIGHT"
+ * (suhadidesign). Both are free for personal use only, so this site ships open-licensed
+ * substitutes tuned to the originals' measured metrics:
+ *
+ *   against     x-height .69em, cap .86em, ascent 1.114em, descent .251em
+ *   ROTHEFIGHT  glyphs 1.576em tall (1.089em above the baseline, .487em below), "PRODUCT" 3.12em wide
+ *
+ * Display: size-adjust scales Playfair Display to the original's x-height; the ascent/descent
+ * overrides are the original's metrics divided by that scale, so line boxes match the reference.
+ *
+ * Marquee: Six Caps has the same width-to-height ratio as ROTHEFIGHT (1.96 vs 1.98). size-adjust
+ * matches the glyph height; the overrides keep the content area of the original (1.37em of the
+ * adjusted size) but move the baseline down to where ROTHEFIGHT's glyphs end, so at the
+ * reference's 224px / 448px line the letters occupy the same band (69–422px).
+ *
+ * A licensed copy of either original placed in src/assets/fonts/licensed/ replaces these
+ * at runtime (see src/licensedFonts.ts).
+ *
+ * The weight range on single-weight faces stops the browser from synthesising bold.
+ */
+
+@font-face {
+  font-family: 'Display';
+  src: url('../assets/fonts/playfair-display-latin-400-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 133%;
+  ascent-override: 83.8%;
+  descent-override: 18.9%;
+  line-gap-override: 0%;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Display';
+  src: url('../assets/fonts/playfair-display-latin-ext-400-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 133%;
+  ascent-override: 83.8%;
+  descent-override: 18.9%;
+  line-gap-override: 0%;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF,
+    U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Metric-matched local fallback so the swap to the web font does not shift layout. */
+@font-face {
+  font-family: 'Display Fallback';
+  src: local('Times New Roman'), local('Times');
+  size-adjust: 145%;
+  ascent-override: 76.8%;
+  descent-override: 17.3%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Marquee';
+  src: url('../assets/fonts/six-caps-latin-400-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 185%;
+  ascent-override: 116.2%;
+  descent-override: 20.8%;
+  line-gap-override: 0%;
+}

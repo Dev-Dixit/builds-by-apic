@@ -1,0 +1,91 @@
+.cloud-bank {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cloud-bank .cloud-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+}
+
+.cloud-img {
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.parallax {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.stars span {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.balloon {
+  position: absolute;
+  width: 52px;
+  filter: drop-shadow(0 8px 14px rgba(60, 30, 120, 0.25));
+  animation: float 7s ease-in-out infinite;
+  --float: -22px;
+  pointer-events: none;
+}
+
+/* --spin (0–1) is set from scroll progress on the home page */
+.galaxy {
+  position: relative;
+  width: 348px;
+  aspect-ratio: 3.2;
+  border-radius: 50%;
+  transform: rotateZ(calc(-24deg + var(--spin, 0.5) * 30deg)) rotateX(calc(20deg + var(--spin, 0.5) * 40deg));
+  background: radial-gradient(
+    closest-side,
+    #fff 0%,
+    #ffd9f5 12%,
+    rgba(240, 120, 220, 0.7) 30%,
+    rgba(140, 90, 240, 0.35) 60%,
+    rgba(140, 90, 240, 0) 100%
+  );
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.galaxy::before,
+.galaxy::after {
+  content: '';
+  position: absolute;
+  inset: 22% -12%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 200, 250, 0.55);
+  filter: blur(1.5px);
+  transform: rotate(-6deg);
+}
+
+.galaxy::after {
+  inset: 34% 4%;
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: rotate(8deg);
+}
+
+.sparkle {
+  position: absolute;
+  filter: drop-shadow(0 4px 10px rgba(40, 60, 140, 0.35));
+  animation: float 5s ease-in-out infinite;
+  pointer-events: none;
+}

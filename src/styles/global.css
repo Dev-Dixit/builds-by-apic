@@ -1,0 +1,314 @@
+:root {
+  --sky-blue: #1769f6;
+  --lavender: #b39cef;
+  --violet: #7970cd;
+  --indigo: #4d45bf;
+  --mist: #ece7fb;
+  --mist-2: #f3f2ff;
+  --paper: #f9f7fe;
+  --periwinkle: #b8bffe;
+  --ink-purple: #3f30c5;
+  --text-dark: #0f0f0f;
+  --text-muted: #666;
+  --text-faint: #888;
+  --white-85: rgba(255, 255, 255, 0.85);
+  --status-green: #16c60c;
+  --accent-orange: #ff7a1a;
+
+  --font-display: 'Display', 'Display Fallback', 'Times New Roman', serif;
+  --font-condensed: 'Marquee', 'Arial Narrow', sans-serif;
+  --font-body: 'Montserrat', system-ui, sans-serif;
+  --font-hand: 'Caveat', 'Comic Sans MS', cursive;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-dot: 'Doto', 'Courier New', monospace;
+
+  --container: 1083px;
+  --gutter: 24px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Framer's default appear spring, approximated as a bezier */
+  --ease-spring: cubic-bezier(0.25, 1, 0.3, 1);
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  color: #fff;
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.light-bg :focus-visible {
+  outline-color: var(--ink-purple);
+}
+
+.container {
+  width: var(--container);
+  margin-inline: calc(50% - var(--container) / 2);
+}
+
+@media (max-width: 999px) {
+  .container {
+    width: min(345px, 100%);
+    margin-inline: auto;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Typography ---------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.h-section {
+  font-size: 3rem;
+}
+
+/* Gradient-filled display text, as in the reference: solid at the top, fading out toward the bottom. */
+.grad-white,
+.grad-ink,
+.grad-dark {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.grad-white {
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) -15%, #fff 62%);
+  -webkit-text-stroke: 0.2px #fff;
+}
+
+.grad-ink {
+  background-image: linear-gradient(0deg, rgba(63, 48, 197, 0) -30%, var(--ink-purple) 62%);
+  -webkit-text-stroke: 0.2px var(--violet);
+}
+
+.grad-dark {
+  background-image: linear-gradient(0deg, var(--text-dark) 34%, rgba(255, 255, 255, 0) 100%);
+}
+
+.body-copy {
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+/* Underlined text link with a trailing arrow */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.arrow-link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.arrow-link:hover {
+  opacity: 1;
+}
+
+.arrow-link:hover svg {
+  transform: translate(3px, -3px);
+}
+
+/* ---------- Layout shared by pages ---------- */
+
+.page {
+  position: relative;
+  overflow-x: clip;
+}
+
+/* Shared two-column section text (sticky on desktop) */
+.section-text {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 345px;
+}
+
+.section-text h2 .line {
+  display: block;
+  width: max-content; /* headings can be wider than the 345px column; keep the gradient fill under all of the text */
+  white-space: nowrap;
+}
+
+.section-text .arrow-link {
+  margin-top: 8px;
+}
+
+/* ---------- Motion primitives ---------- */
+
+@keyframes blur-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+.blur-in {
+  animation: blur-in 1.1s var(--ease-out) both;
+  animation-delay: var(--delay, 0s);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: var(--delay, 0s);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(var(--float, -14px)) rotate(var(--r, 0deg));
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(-3%);
+  }
+  to {
+    transform: translateX(3%);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Lite mode / reduced motion: switch every decorative animation off. */
+[data-mode='lite'] *,
+[data-mode='lite'] *::before,
+[data-mode='lite'] *::after {
+  animation-duration: 0.001s !important;
+  animation-iteration-count: 1 !important;
+}
+
+[data-mode='lite'] .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The reference switches to its compact layout at exactly 1000px: headings 24px, one centred 345px column. */
+@media (max-width: 999px) {
+  :root {
+    --gutter: 8px;
+  }
+  .section-text {
+    position: static;
+    max-width: 345px;
+  }
+  .h-section {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+}

@@ -1,0 +1,597 @@
+/*
+ * Footer ("Open to new opportunities" + meadow). 947px tall; every position below is the reference's, measured
+ * from the footer's top edge on a 1440px page and centred horizontally, so  left: calc(50% - 720px + X).
+ */
+
+.finale {
+  position: relative;
+  z-index: 3;
+  height: 947px;
+  overflow: clip; /* like the reference: the cloud's parallax drift must not lengthen the page */
+  color: #000;
+  letter-spacing: 0;
+}
+
+.finale__abs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ---------- Ground (reference images; generic meadow below when they are absent) ---------- */
+
+.og {
+  position: absolute;
+  max-width: none;
+  user-select: none;
+}
+
+.og__back {
+  z-index: 1;
+  top: 363px;
+  left: calc(50% - 1506px);
+  width: 3012px;
+  height: 584px;
+  opacity: 0.81;
+}
+
+.og__land {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.og__hill {
+  position: absolute;
+  top: -64px;
+  left: calc(50% - 826.5px);
+  width: 1653px;
+  height: 1028px;
+  max-width: none;
+}
+
+/* three soft dark ellipses on the hill, one under each social tile (overlay blend, 5px blur, 60%) */
+.og__shadow {
+  position: absolute;
+  width: 123px;
+  height: 27px;
+  border-radius: 50%;
+  background: #000;
+  opacity: 0.6;
+  filter: blur(5px);
+  mix-blend-mode: overlay;
+}
+
+.og__shadow--a {
+  left: calc(50% - 720px + 662px);
+  top: 662px;
+}
+
+.og__shadow--b {
+  left: calc(50% - 720px + 533.5px);
+  top: 682.5px;
+  transform: rotate(-8deg);
+}
+
+.og__shadow--c {
+  left: calc(50% - 720px + 798.5px);
+  top: 671.5px;
+  transform: rotate(9deg);
+}
+
+.og__front {
+  z-index: 2;
+  top: 376px;
+  left: calc(50% - 1500.5px);
+  width: 3001px;
+  height: 571px;
+  filter: blur(1px);
+}
+
+/* generic stand-in meadow */
+.meadow {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 470px;
+  bottom: 0;
+}
+
+.meadow__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Social tiles: 120px, tilted ∓4° at rest; on hover they rise 18px and straighten ---------- */
+
+.socials {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socials li {
+  position: absolute;
+  left: calc(50% - 720px + var(--x));
+  top: var(--y);
+  width: 120px;
+  height: 120px;
+  pointer-events: auto;
+  transform: rotate(var(--r));
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.socials li:hover,
+.socials li:focus-within {
+  transform: translateY(-18px) rotate(0deg);
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 28px;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.5),
+    0 16px 24px rgba(20, 40, 20, 0.35);
+}
+
+.social svg {
+  width: 72%;
+}
+
+.social--img {
+  background: none;
+  box-shadow: none;
+}
+
+.social--img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.social--instagram {
+  background:
+    radial-gradient(circle at 25% 105%, #ffd36b 0%, #ff8a3c 25%, rgba(255, 60, 120, 0) 55%),
+    linear-gradient(135deg, #6a3df0, #d6249f 55%, #ff3d6e);
+}
+
+.social--linkedin {
+  background: linear-gradient(160deg, #2b8ee8, #0a5fb4);
+}
+
+.social--medium {
+  background: linear-gradient(160deg, #222, #000);
+}
+
+/* ---------- Butterflies (replayed motion, see Butterflies.tsx) ---------- */
+
+.bf__wrap {
+  position: absolute;
+  pointer-events: none;
+}
+
+.bf,
+.bf__group,
+.bf__wing {
+  position: absolute;
+  will-change: transform;
+}
+
+.bf__wing img {
+  display: block;
+  max-width: none;
+}
+
+/* generic stand-in butterflies */
+.butterfly {
+  position: absolute;
+  z-index: 2;
+  width: 26px;
+  height: 20px;
+  animation: flutter-path 9s ease-in-out infinite;
+}
+
+.butterfly i {
+  position: absolute;
+  top: 0;
+  width: 13px;
+  height: 18px;
+  background: var(--c);
+  border-radius: 70% 30% 60% 40%;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.25);
+  transform-origin: right center;
+  animation: flap 0.35s ease-in-out infinite alternate;
+}
+
+.butterfly i:last-child {
+  left: 13px;
+  transform-origin: left center;
+  border-radius: 30% 70% 40% 60%;
+}
+
+@keyframes flap {
+  to {
+    transform: rotateY(65deg);
+  }
+}
+
+@keyframes flutter-path {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-10deg);
+  }
+  33% {
+    transform: translate(-30px, -20px) rotate(8deg);
+  }
+  66% {
+    transform: translate(20px, -36px) rotate(-4deg);
+  }
+}
+
+/* ---------- Cloud, white fade and credit line ---------- */
+
+/* 1440×455 at y=313, drifting down at 0.04 × scroll */
+.finale__cloud {
+  top: 313px;
+  left: calc(50% - 721px);
+  width: 1440px;
+  height: 455px;
+}
+
+.finale__cloud .cloud-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 100%;
+}
+
+.finale__fade {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: 694px;
+  height: 253px;
+  background: linear-gradient(rgba(255, 255, 255, 0) 6.30631%, #fff 81.0811%);
+}
+
+.finale__note {
+  position: absolute;
+  left: calc(50% - 200px);
+  top: 204px;
+  width: 400px;
+  margin: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.2;
+  color: #000;
+}
+
+/* ---------- Status, heading, button, email ---------- */
+
+.status {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 255px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.status__dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.status__core,
+.status__ping {
+  position: absolute;
+  border-radius: 50%;
+  background: rgb(0, 189, 9);
+}
+
+.status__core {
+  left: 4px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+}
+
+/* a 12px ripple: holds 0.48s, then grows to 3× while fading out over 2.05s (fitted from the reference) */
+.status__ping {
+  left: 6px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  filter: blur(1px);
+  animation: ping 2.53s linear infinite;
+}
+
+@keyframes ping {
+  0%,
+  19% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  42% {
+    transform: scale(1.505);
+    opacity: 0.747;
+  }
+  52.5% {
+    transform: scale(1.945);
+    opacity: 0.527;
+  }
+  64.5% {
+    transform: scale(2.465);
+    opacity: 0.268;
+  }
+  77.6% {
+    transform: scale(2.85);
+    opacity: 0.074;
+  }
+  88% {
+    transform: scale(2.977);
+    opacity: 0.011;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.status__text {
+  margin-top: 2px;
+  font-size: 1rem;
+  line-height: 19.2px;
+  color: #171717;
+  opacity: 0.6;
+  -webkit-text-stroke: 0.2px #242424;
+}
+
+.finale__contact {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 332px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* heading and email are filled with a bottom-to-top gradient: black fading to #a3a3a3 */
+.contact__heading,
+.contact__email {
+  margin: 0;
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.contact__heading span,
+.contact__email span {
+  display: inline-block;
+  background: linear-gradient(0deg, #000 0%, #a3a3a3 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.2px #242424; /* the reference strokes these 0.2px, which gives the heavier look */
+}
+
+.contact__heading {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 38.4px;
+}
+
+.contact__email {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 19.2px;
+  opacity: 0.8;
+}
+
+/*
+ * "Send a Mail": a 205×55 black button that, on hover, grows to 227×64, swaps its inset highlight for a soft purple
+ * shadow, fades in a starfield and lifts a hill-shaped purple glow into view (it sits below the button at rest,
+ * hidden by the button's own clip).
+ */
+.send {
+  position: relative;
+  display: block;
+  width: 205px;
+  height: 55px;
+  margin-top: 10px;
+  pointer-events: auto;
+}
+
+.send__btn {
+  --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 205px;
+  height: 55px;
+  transform: translate(-50%, -50%);
+  border-radius: 16px;
+  background: #000;
+  overflow: clip;
+  box-shadow: inset 1px 2.5px 1px -1px rgba(255, 255, 255, 0.6);
+  transition:
+    width 0.5s var(--spring),
+    height 0.5s var(--spring),
+    box-shadow 0.4s ease;
+}
+
+.send:hover .send__btn,
+.send:focus-visible .send__btn {
+  width: 227px;
+  height: 64px;
+  box-shadow:
+    0 8px 9px -1px rgba(91, 79, 140, 0.24),
+    0 2px 10px 2px rgba(91, 79, 140, 0.18);
+}
+
+.send__stars {
+  position: absolute;
+  left: -437.5px;
+  top: -490px;
+  width: 1095px;
+  height: 651px;
+  max-width: none;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.send:hover .send__stars,
+.send:focus-visible .send__stars {
+  opacity: 1;
+}
+
+.send__glow {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 66px;
+  width: 282px;
+  height: 102px;
+  margin-left: -141px;
+  filter: blur(8px);
+  opacity: 0.29;
+  transition:
+    top 0.5s var(--spring),
+    width 0.5s var(--spring),
+    height 0.5s var(--spring),
+    margin-left 0.5s var(--spring),
+    opacity 0.5s ease;
+}
+
+.send:hover .send__glow,
+.send:focus-visible .send__glow {
+  top: 26px;
+  width: 363px;
+  height: 90px;
+  margin-left: -181.5px;
+  opacity: 0.72;
+}
+
+/* the glow box is 282×102 (363×90 on hover); each hill overflows it as measured on the reference */
+.send__hill {
+  position: absolute;
+  display: block;
+  max-width: none;
+  transition:
+    opacity 0.45s ease,
+    left 0.5s var(--spring),
+    top 0.5s var(--spring),
+    width 0.5s var(--spring),
+    height 0.5s var(--spring);
+}
+
+.send__hill--rest {
+  left: 7px;
+  top: -18px;
+  width: 261px;
+  height: 70px;
+  opacity: 1;
+}
+
+.send__hill--hover {
+  left: -49px;
+  top: -15px;
+  width: 470px;
+  height: 67px;
+  opacity: 0;
+}
+
+.send:hover .send__hill--rest,
+.send:focus-visible .send__hill--rest {
+  opacity: 0;
+}
+
+.send:hover .send__hill--hover,
+.send:focus-visible .send__hill--hover {
+  opacity: 1;
+}
+
+.send__label {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  transition: transform 0.5s var(--spring);
+}
+
+.send:hover .send__label {
+  transform: scale(1.04);
+}
+
+.send__label span {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.7) 0%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.3px #fff;
+}
+
+/* ---------- Plain dark button (used by the case-study page) ---------- */
+
+.btn-dark {
+  display: inline-grid;
+  place-items: center;
+  min-width: 205px;
+  height: 55px;
+  margin-top: 10px;
+  padding: 0 28px;
+  border-radius: 16px;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.2rem;
+  letter-spacing: 0;
+  box-shadow:
+    inset 1px 2.5px 1px -1px rgba(255, 255, 255, 0.6),
+    0 8px 20px rgba(20, 10, 60, 0.2);
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s;
+}
+
+.btn-dark:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    inset 1px 2.5px 1px -1px rgba(255, 255, 255, 0.6),
+    0 14px 28px rgba(20, 10, 60, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status__ping {
+    animation: none;
+    opacity: 0;
+  }
+}

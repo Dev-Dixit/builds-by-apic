@@ -1,0 +1,1009 @@
+/*
+ * Home. Desktop sizes are the reference's measured values at 1440×900 (content width 1425, column
+ * 1083 starting at x=171). Section heights are fixed where the reference fixes them, because the
+ * page-anchored parallax layers in .decor are placed in document coordinates.
+ */
+
+.page--home {
+  background: linear-gradient(180deg, #1769f6 0%, #b39cef 18.4%, #7970cd 29.9%, #ece7fb 100%);
+}
+
+/* ---------- Page-anchored decorative layers ---------- */
+
+.decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* x positions are relative to the page centre (712.5px at the reference width) */
+.decor > .parallax {
+  z-index: 0;
+}
+
+.decor .cloud-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+}
+
+.decor__hero-cloud {
+  top: 129px;
+  left: calc(50% - 935.5px);
+  width: 989px;
+  height: 659px;
+  mix-blend-mode: overlay;
+  opacity: 0.65;
+  filter: blur(2px);
+}
+
+.decor__hero-cloud--r {
+  top: -20px;
+  left: calc(50% - 33.5px);
+}
+
+/* the reference's "Ellipse comp up" layer: a 3600×1206 lavender-pink glow behind the hero scene */
+.decor__hero-glow {
+  position: absolute;
+  top: 174px;
+  left: calc(50% - 1800px);
+  width: 3600px;
+  height: 1206px;
+  background: radial-gradient(closest-side, rgba(214, 170, 246, 0.9) 0%, rgba(196, 160, 242, 0.65) 40%, rgba(179, 156, 239, 0) 100%);
+  pointer-events: none;
+}
+
+.decor__mist {
+  z-index: 2 !important; /* above the hero scene (1), below the content sections (3), like the reference's hero-internal layer */
+  top: calc(100vh - 110px);
+  left: calc(50% - 996.5px);
+  width: 1995px;
+  height: 713px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(196, 178, 246, 0.98) 0%, rgba(186, 166, 243, 0.85) 38%, rgba(179, 156, 239, 0) 100%);
+}
+
+.decor__cloud2,
+.decor__cloud2b {
+  top: calc(160vh + 254px); /* anchored to the Works block: 1.6vh + 166px + 88px */
+  left: calc(50% - 1012.5px);
+  width: 1207px;
+  height: 522px;
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+}
+
+.decor__cloud2b {
+  top: calc(220vh + 2138px);
+}
+
+.decor__cloud2b-inner {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scaleX(-1);
+}
+
+.decor__balloon {
+  top: calc(160vh + 469px);
+  left: calc(50% - 547.5px);
+  width: 50px;
+  height: 69px;
+  opacity: 0.7;
+  filter: blur(2px);
+}
+
+.decor__balloon .balloon {
+  position: static;
+  width: 100%;
+}
+
+.decor__galaxy {
+  top: calc(160vh + 784px);
+  left: calc(50% - 818.5px);
+  width: 491px;
+  height: 320px;
+  mix-blend-mode: screen;
+  perspective: 900px;
+}
+
+.decor__galaxy > div {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.decor__cloud3 {
+  z-index: 6 !important;
+  top: calc(220vh + 916px);
+  left: calc(50% - 61.5px);
+  width: 980px;
+  height: 273px;
+  opacity: 0.9;
+}
+
+/* a long, flat bank: show its upper half only, as the reference's thin cloud strip */
+.decor__cloud3 .cloud-img {
+  height: 150px;
+  object-fit: cover;
+  object-position: 50% 30%;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent);
+  mask-image: linear-gradient(#000 55%, transparent);
+}
+
+[data-mode='lite'] .decor__cloud2b-inner {
+  opacity: 0.9;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  z-index: 1;
+  height: 100vh; /* the reference's hero is exactly one viewport tall */
+}
+
+.hero__title {
+  position: relative;
+  z-index: 4;
+  padding-top: calc(20px + clamp(0px, (100vh - 900px) * 0.045, 12px));
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero__title h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+}
+
+.hero__hi {
+  font-size: 2rem;
+  line-height: 0.8;
+}
+
+.hero__name {
+  margin-top: 10px;
+  font-size: 4.5rem;
+  line-height: 0.8;
+}
+
+.hero__sub {
+  width: min(431px, 100% - 2 * var(--gutter));
+  margin: 24px auto 0;
+  font-size: 0.9rem;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--white-85);
+}
+
+.hero__sub span {
+  display: block;
+}
+
+/*
+ * Skill ticker behind the monitor. Reference: 224px / 448px line at y=101, layer opacity .4,
+ * words separated by 27px dots with 10px gaps, drifting right at 29px/s (one 4520px cycle ≈ 156s).
+ */
+.hero__marquee {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: calc(15.9vw - 128.5px); /* measured: 75px at 1280 wide … 177px at 1920 */
+  overflow: hidden;
+  opacity: 0.4;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 45%, rgba(0, 0, 0, 0.35) 85%);
+  mask-image: linear-gradient(#000 45%, rgba(0, 0, 0, 0.35) 85%);
+}
+
+.hero__marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 156s linear infinite;
+  font-family: var(--font-condensed);
+  font-size: 14rem;
+  line-height: 2;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.hero__marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.hero__marquee-dot {
+  flex: none;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.hero__scene {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 216px;
+  width: min(1060px, 100%);
+  translate: -50% 0;
+}
+
+/* Study mode: the reference's Spline canvas, 1710×990, offset (-143, -26) from the hero's top-left */
+.spline-hero {
+  position: absolute;
+  z-index: 3;
+  left: -10vw;
+  top: calc(64px - 10vh);
+  width: 120vw;
+  height: 110vh;
+  max-width: none;
+  pointer-events: auto;
+}
+
+/* Distant sky sparkles: positions measured on the reference at 1440×900 */
+.hero__stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__star {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 6px 1px rgba(255, 255, 255, 0.9),
+    0 0 16px 4px rgba(190, 215, 255, 0.55);
+  opacity: 0.8;
+  animation: twinkle 4.2s ease-in-out infinite;
+}
+
+.hero__star--0 {
+  left: calc(50% - 577px);
+  top: 22px;
+}
+.hero__star--1 {
+  left: calc(50% - 437px);
+  top: 262px;
+  animation-delay: 0.8s;
+}
+.hero__star--2 {
+  left: calc(50% + 423px);
+  top: 142px;
+  width: 6px;
+  height: 6px;
+  animation-delay: 1.6s;
+}
+.hero__star--3 {
+  left: calc(50% - 577px);
+  top: 382px;
+  width: 5px;
+  height: 5px;
+  animation-delay: 2.4s;
+}
+.hero__star--4 {
+  left: calc(50% + 427px);
+  top: 434px;
+  width: 5px;
+  height: 5px;
+  animation-delay: 3.2s;
+}
+
+/* ---------- Who am I ---------- */
+
+.who {
+  position: relative;
+  z-index: 3;
+  height: calc(60vh + 166px); /* grows 0.6 × the viewport height, as on the reference */
+  container-type: inline-size;
+}
+
+.who__text {
+  margin-top: 230px;
+}
+
+.who__collage {
+  position: absolute;
+  inset: 0;
+}
+
+.who__photo {
+  position: absolute;
+  width: 20.68cqw;
+  opacity: 0;
+  transform: scale(1.1) rotate(var(--rot, 0deg));
+  transition:
+    opacity 0.7s var(--ease-spring) var(--delay, 0s),
+    transform 0.9s var(--ease-spring) var(--delay, 0s),
+    box-shadow 0.5s var(--ease-out);
+}
+
+.who__collage.is-in .who__photo {
+  opacity: 1;
+  transform: rotate(var(--rot, 0deg));
+}
+
+.who__collage.is-in .who__photo:hover {
+  transform: rotate(0deg) scale(1.04);
+  transition-delay: 0s;
+}
+
+.who__photo .polaroid__photo {
+  aspect-ratio: 204 / 205;
+}
+
+.who__photo--0 {
+  left: 55.31cqw;
+  top: 1.94cqw;
+}
+.who__photo--1 {
+  left: 73.78cqw;
+  top: 13.76cqw;
+}
+.who__photo--2 {
+  left: 40.54cqw;
+  top: 23.5cqw; /* polaroid top 240px below the section, measured from the reference screenshot */
+}
+.who__photo--3 {
+  left: 60.3cqw;
+  top: 38.13cqw;
+  width: 29.92cqw;
+}
+
+.who__photo--3 .polaroid__photo {
+  aspect-ratio: 304 / 205;
+}
+
+[data-mode='lite'] .who__photo {
+  opacity: 1;
+  transform: rotate(var(--rot, 0deg));
+}
+
+/* ---------- Statement ---------- */
+
+.statement {
+  position: relative;
+  z-index: 3;
+  padding: 455px var(--gutter) 0;
+}
+
+.statement__text {
+  /* fixed 1085px column with explicit line breaks, centred even when the viewport is narrower (as on the reference) */
+  width: 1085px;
+  max-width: none;
+  margin: 0 calc(50% - 542.5px);
+  white-space: nowrap;
+  text-align: center;
+  font-size: 1.85rem; /* Playfair runs wider than against; this keeps the reference's 3-line break */
+  line-height: 74px; /* 64px word boxes + 10px row gap on the reference */
+  font-weight: 400;
+  color: #fff;
+}
+
+.statement .word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    filter 0.6s var(--ease-out),
+    transform 0.8s var(--ease-spring);
+  transition-delay: calc(var(--i) * 0.03s);
+  white-space: pre;
+}
+
+.statement__text.is-in .word,
+[data-mode='lite'] .statement .word {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.chip--script {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05em;
+}
+
+/* the real font (local study mode) is 32px on the reference; the narrower substitute needs 1.85rem */
+[data-original='1'] .statement__text {
+  font-size: 2rem;
+}
+
+.chip--script small {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.72em;
+}
+
+.chip--badge {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  color: #ff6a1a;
+  letter-spacing: -0.02em;
+}
+
+.chip--badge b {
+  display: grid;
+  place-items: center;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 0.3em;
+  background: #ff6a1a;
+  color: #fff;
+  font-size: 0.85em;
+}
+
+.chip--plain {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+/* ---------- Work ---------- */
+
+.work {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 349px 1fr;
+  gap: 45px;
+  margin-top: calc(60vh - 201px);
+  padding-bottom: 80px;
+}
+
+.work .section-text {
+  margin-top: 10px;
+}
+
+.work__cards {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* ---------- Wisdom ---------- */
+
+.wisdom {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 345px 670px;
+  gap: 68px;
+  height: 740px;
+  padding-top: 210px;
+}
+
+.wisdom__quote {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.wisdom__quote span {
+  font-style: normal;
+  font-weight: 400;
+}
+
+.wisdom__books {
+  /* a 670px box starting at x=592 with the row centred in it, so opening a book pushes the others apart both ways */
+  align-self: start;
+  margin-top: -10px;
+  width: 670px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ---------- Journey ---------- */
+
+.journey {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 472px 1fr;
+  padding-top: 10px;
+  color: #000;
+}
+
+.journey__head {
+  position: relative;
+}
+
+.journey__line {
+  position: absolute;
+  left: 472px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.45);
+  -webkit-mask-image: linear-gradient(transparent, #000 6%, #000 88%, transparent);
+  mask-image: linear-gradient(transparent, #000 6%, #000 88%, transparent);
+}
+
+.journey__fill {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+  transform-origin: top;
+  transform: scaleY(var(--progress, 1));
+}
+
+[data-mode='lite'] .journey__fill {
+  transform: none;
+}
+
+.journey__list {
+  list-style: none;
+  margin: 0;
+  padding: 336px 0 0 103px;
+}
+
+.journey__item {
+  position: relative;
+  min-height: 851px;
+}
+
+.journey__item:last-child {
+  min-height: 505px;
+}
+
+.journey__sticky {
+  position: sticky;
+  top: 40px;
+}
+
+/* ring on the timeline, level with the logo tile */
+.journey__dot {
+  position: absolute;
+  left: -110px;
+  top: 62px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(179, 156, 239, 0.9);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.journey__dates {
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.journey__row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.journey__logo {
+  flex: none;
+  width: 123px;
+  height: 123px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 3.6rem;
+  letter-spacing: -0.04em;
+  box-shadow:
+    0 8px 20px rgba(60, 40, 140, 0.15),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.06);
+}
+
+.journey__role {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 0.9;
+  font-variant: small-caps;
+  letter-spacing: -0.02em;
+  margin-top: 3px;
+}
+
+.journey__org {
+  font-size: 2.3rem;
+  line-height: 1.5;
+}
+
+.journey__text {
+  max-width: 345px;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 999px) {
+  /* the page-anchored layers are placed in desktop document coordinates */
+  .decor__mist,
+  .decor__galaxy,
+  .decor__cloud2,
+  .decor__cloud2b,
+  .decor__cloud3,
+  .decor__balloon {
+    display: none;
+  }
+  .decor__hero-glow {
+    top: 120px;
+    left: -150%;
+    width: 400%;
+    height: 700px;
+  }
+  .decor__hero-cloud {
+    top: 120px;
+    left: -45%;
+    width: 120%;
+    height: 360px;
+  }
+  .decor__hero-cloud--r {
+    top: 40px;
+    left: 30%;
+  }
+
+  .hero {
+    height: auto;
+    padding-bottom: 40px;
+  }
+  .hero__name {
+    font-size: 4rem;
+  }
+  .hero__sub {
+    font-size: 0.85rem;
+    line-height: 1.15;
+  }
+  .hero__marquee {
+    top: 120px;
+  }
+  .hero__marquee-track {
+    font-size: 7rem;
+  }
+  .hero__marquee-dot {
+    width: 14px;
+    height: 14px;
+  }
+  .hero__scene {
+    position: relative;
+    left: auto;
+    top: auto;
+    translate: none;
+    width: auto;
+    margin: 28px -9% 0;
+  }
+
+  .who {
+    height: auto;
+    container-type: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 40px;
+  }
+  .who__text {
+    margin-top: 0;
+  }
+  /* zig-zag column, as on the reference at 390px */
+  .who__collage {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 350 / 560;
+    container-type: inline-size;
+  }
+  .who__photo {
+    width: 44cqw;
+  }
+  .who__photo--0 {
+    left: 10cqw;
+    top: 0;
+  }
+  .who__photo--1 {
+    left: 44cqw;
+    top: 22cqw;
+  }
+  .who__photo--2 {
+    left: 4cqw;
+    top: 74cqw;
+  }
+  .who__photo--3 {
+    left: 14cqw;
+    top: 112cqw;
+    width: 66cqw;
+  }
+
+  .statement {
+    padding-top: 140px;
+  }
+  .statement__br {
+    display: none;
+  }
+  .statement__text {
+    width: auto;
+    margin-inline: auto;
+    white-space: normal;
+  }
+  .statement__text {
+    font-size: 1.45rem;
+    line-height: 1.9;
+  }
+
+  .work,
+  .wisdom {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 140px;
+  }
+  .wisdom {
+    height: auto;
+    padding: 120px 0 120px;
+    margin-top: 0;
+  }
+  .wisdom__books {
+    margin-top: 0;
+    width: auto;
+    justify-content: flex-start;
+    padding-left: 10px;
+  }
+
+  .journey {
+    grid-template-columns: 1fr;
+  }
+  .journey__line {
+    left: 6px;
+    top: 160px;
+  }
+  .journey__list {
+    padding: 40px 0 0 34px;
+  }
+  .journey__item,
+  .journey__item:last-child {
+    min-height: 0;
+    padding-bottom: 72px;
+  }
+  .journey__sticky {
+    position: static;
+  }
+  .journey__dot {
+    left: -34px;
+    top: 4px;
+  }
+  .journey__row {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .journey__logo {
+    width: 84px;
+    height: 84px;
+    border-radius: 18px;
+    font-size: 2.4rem;
+  }
+  .journey__org {
+    font-size: 2rem;
+  }
+}
+
+.journey__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
+}
+
+/* ---------- Reference images in the decor layers (local study mode) ---------- */
+
+.decor__hero-glow .cloud-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: 0 0;
+}
+
+.decor__mist:has(.decor__mist-ellipse) {
+  background: none;
+}
+
+/* ellipse is 3600×1779 at (-803, -533) of the 1995×713 mist layer; the purple mist sits 156px down */
+.decor__mist-ellipse {
+  position: absolute !important;
+  left: -803px;
+  top: -533px;
+  width: 3600px !important;
+  height: 1779px !important;
+  object-fit: fill !important;
+}
+
+.decor__mist-purple {
+  position: absolute !important;
+  left: 0;
+  top: 156px;
+  width: 1995px !important;
+  height: 402px !important;
+  object-fit: fill !important;
+  mix-blend-mode: color-burn;
+  opacity: 0.7;
+}
+
+.decor__balloon-img {
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.decor__galaxy-img {
+  width: 348px !important;
+  height: 232px !important;
+  object-fit: contain !important;
+  transform: rotateZ(calc(-8deg + var(--spin, 0.5) * 16deg)) rotateX(calc(var(--spin, 0.5) * 30deg));
+}
+
+.decor__cloud3-img {
+  height: 100% !important;
+  object-fit: contain !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.chip__img {
+  display: inline-block;
+  width: auto;
+  max-width: none;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+/* Second copy of the glow image in the reference's next section ("Ellipse comp": 3000×1005 at y=912, no parallax) */
+.decor__works-glow {
+  top: calc(100vh + 12px);
+  left: calc(50% - 1500px);
+  width: 3000px;
+  height: 1005px;
+}
+
+.decor__hero {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+}
+
+@media (max-width: 999px) {
+  .decor__works-glow {
+    display: none;
+  }
+}
+
+
+/* ---------- Compact layout (≤ 999px), numbers fitted from the reference at 360–999px ----------
+ * hero = 75vh; title 32/72px at y=28/54; subtitle 16px, 92% wide, y=153; ticker at half scale;
+ * scene image box 100vw × 50vh at 26.8vh; "Who am I" heading starts 10px below the hero.
+ */
+@media (max-width: 999px) {
+  .hero {
+    height: 75vh;
+    padding-bottom: 0;
+  }
+  .hero__title {
+    padding-top: 28px;
+  }
+  .hero__name {
+    margin-top: 0;
+    font-size: 4.5rem;
+  }
+  .hero__sub {
+    width: 92%;
+    margin: 41px auto 0;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 16px;
+  }
+  .hero__marquee {
+    top: calc(75vh - 16.25vw - 320.75px);
+  }
+  .hero__marquee-track {
+    font-size: 7rem;
+    line-height: 2;
+  }
+  .hero__static {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    top: 26.8vh;
+    width: 100%;
+    height: 50vh;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .hero__scene {
+    position: absolute;
+    top: 26.8vh;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+  }
+  .who {
+    padding-top: 10px;
+  }
+  .who__text {
+    width: min(345px, 100%);
+    margin-inline: auto;
+  }
+}
+
+/* Compact hero decor, fitted from the reference's rectangles at 390×844 and 810×1000
+ * (hero = 75vh): glow 216vw wide ending 52px below the hero; ellipse 280vw at hero − 190px;
+ * purple mist 140vw; the second glow 250px below the hero; the two hero clouds. */
+@media (max-width: 999px) {
+  .decor__hero-glow:not(.decor__works-glow) {
+    left: -58vw;
+    width: 216vw;
+    height: 72.3vw;
+    top: calc(75vh + 52px - 72.3vw);
+  }
+  .decor__works-glow {
+    display: block;
+    top: calc(75vh + 250px);
+  }
+  .decor__hero-cloud {
+    top: 129px;
+    left: -223px;
+    width: 989px;
+    height: 659px;
+  }
+  .decor__hero-cloud--r {
+    top: -20px;
+    left: calc(100vw - 746px);
+  }
+  .decor__mist {
+    display: block;
+    z-index: 2 !important;
+    left: 0;
+    top: calc(75vh - 190px);
+    width: 0;
+    height: 0;
+    background: none;
+  }
+  .decor__mist-ellipse {
+    left: -90vw !important;
+    top: 0 !important;
+    width: 280vw !important;
+    height: 138.4vw !important;
+  }
+  .decor__mist-purple {
+    left: -20vw !important;
+    top: calc(382px - 0.143 * (100vw - 390px)) !important;
+    width: 140vw !important;
+    height: 28vw !important;
+  }
+}

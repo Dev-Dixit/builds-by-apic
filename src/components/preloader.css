@@ -1,0 +1,116 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 40; /* under the nav (50) so the Interactive Mode toggle stays usable */
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #5149cf 0%, #6a62db 40%, #8f88ea 75%, #a59ef1 100%);
+  color: #fff;
+  transition:
+    opacity 0.8s var(--ease-out),
+    filter 0.8s var(--ease-out);
+}
+
+.preloader.is-leaving {
+  opacity: 0;
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.preloader__sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.preloader__cloud {
+  position: absolute;
+  opacity: 0.85;
+}
+
+.preloader__cloud--a {
+  left: -10%;
+  bottom: -26%;
+  width: 120%;
+  opacity: 0.75;
+}
+
+.preloader__cloud--b {
+  left: -20%;
+  top: 4%;
+  width: 70%;
+  opacity: 0.18;
+  filter: blur(6px);
+}
+
+.preloader__center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: -20px;
+}
+
+.preloader__pct {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  line-height: 0.8;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.preloader__bar {
+  position: relative;
+  display: block;
+  width: 130px;
+  height: 12px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.preloader__bar span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #fff;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.preloader__hint {
+  position: absolute;
+  z-index: 1;
+  left: 32px;
+  bottom: 118px;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.preloader__hint svg {
+  width: 22px;
+  margin: 8px 0 0 130px;
+  transform: rotate(14deg);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* While loading, only the Interactive Mode toggle of the nav is shown. */
+html:not(.is-loaded) .side-nav__link,
+html:not(.is-loaded) .side-nav__glow {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+html:not(.is-loaded) .blur-in,
+html:not(.is-loaded) .appear {
+  animation-play-state: paused;
+}
+
+@media (max-width: 809px) {
+  .preloader__hint {
+    left: 20px;
+    bottom: 96px;
+  }
+}

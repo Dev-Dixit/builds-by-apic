@@ -1,0 +1,569 @@
+/* ---------- Polaroid ---------- */
+
+.polaroid {
+  margin: 0;
+  padding: 10px 10px 0;
+  will-change: transform;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 14px 30px rgba(40, 20, 110, 0.22);
+  transform: rotate(var(--rot, 0deg));
+  transition:
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.04);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 24px 40px rgba(40, 20, 110, 0.3);
+  z-index: 5;
+}
+
+.polaroid__photo {
+  aspect-ratio: 1 / 0.85;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.polaroid__photo img,
+.polaroid__photo svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.polaroid__caption {
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #000;
+}
+
+/* ---------- Console project card ---------- */
+
+/* The reference card box is 689×438 including the dial that overhangs the top-right corner. */
+.console-wrap {
+  width: 100%;
+  max-width: 689px;
+  aspect-ratio: 689 / 438;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 4.1% 0 6.1%;
+}
+
+.console {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.66;
+  container-type: inline-size;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.console > span {
+  position: absolute;
+  display: block;
+}
+
+.console__grille {
+  left: -0.6cqw;
+  top: -0.8cqw;
+  width: 30cqw;
+  height: 34cqw;
+  border-radius: 8cqw 0 0 0;
+  background-image: radial-gradient(circle, #b9a13a 0.45cqw, transparent 0.55cqw);
+  background-size: 1.4cqw 1.4cqw;
+  opacity: 0.9;
+}
+
+.console__body {
+  inset: 0;
+  border-radius: 7cqw;
+  background:
+    radial-gradient(120% 90% at 20% 0%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(160deg, #efe9e0 0%, #d9d1c5 55%, #c4baac 100%);
+  box-shadow:
+    inset 0 0.6cqw 0.6cqw rgba(255, 255, 255, 0.9),
+    inset 0 -1.2cqw 1.6cqw rgba(110, 90, 70, 0.35),
+    0 0.6cqw 0 #b7aa98,
+    0 3cqw 5cqw rgba(50, 30, 120, 0.35);
+}
+
+.console__body::after {
+  content: '';
+  position: absolute;
+  inset: auto 6% -1.2cqw;
+  height: 3cqw;
+  border-radius: 0 0 6cqw 6cqw;
+  background: linear-gradient(90deg, #c9b8ff, #a6c2ff);
+  opacity: 0.55;
+  filter: blur(4px);
+  z-index: -1;
+}
+
+.console__screen {
+  left: 4.4%;
+  top: 7.5%;
+  width: 50.5%;
+  height: 85%;
+  padding: 1.1cqw;
+  border-radius: 5cqw;
+  background: linear-gradient(160deg, #f8f6f2, #d2cabe);
+  box-shadow:
+    inset 0 0.4cqw 1cqw rgba(80, 60, 40, 0.35),
+    0 0.3cqw 0 rgba(255, 255, 255, 0.8);
+}
+
+.console__screen > .mock {
+  border-radius: 4cqw;
+}
+
+.console__lcd {
+  left: 58.5%;
+  top: 7.5%;
+  width: 37%;
+  height: 54%;
+  padding: 3cqw 2.8cqw;
+  border-radius: 4.5cqw;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 0.15cqw, transparent 0.2cqw) 0 0 / 0.7cqw 0.7cqw,
+    linear-gradient(160deg, #2a2a2c, #141416);
+  box-shadow:
+    inset 0 0.4cqw 1cqw rgba(0, 0, 0, 0.7),
+    0 0.3cqw 0 rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+}
+
+.console__logo {
+  width: 9.5cqw;
+  height: 9.5cqw;
+  display: grid !important;
+  place-items: center;
+  margin-bottom: 1.6cqw;
+  border-radius: 2.2cqw;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 5cqw;
+  line-height: 1;
+}
+
+.console__lcd-text {
+  display: block;
+  font-family: var(--font-dot);
+  font-weight: 700;
+  font-size: 2.45cqw;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  color: #f2f2f2;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.35);
+}
+
+.console__pad {
+  left: 61%;
+  top: 66.5%;
+  width: 32%;
+  height: 26%;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #2b2c30, #4a4c52);
+  box-shadow:
+    inset 0 0.5cqw 1cqw rgba(0, 0, 0, 0.6),
+    0 0.3cqw 0 rgba(255, 255, 255, 0.6);
+}
+
+.console__btn {
+  position: absolute;
+  top: 9%;
+  left: 5%;
+  width: 41%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c8c9cd, #77787d 55%, #45464b 100%);
+  box-shadow:
+    0 0.6cqw 1cqw rgba(0, 0, 0, 0.5),
+    inset 0 0.3cqw 0.4cqw rgba(255, 255, 255, 0.5);
+  transition:
+    background 0.35s,
+    box-shadow 0.35s;
+}
+
+.console__btn--b {
+  left: auto;
+  right: 5%;
+}
+
+.console__dial {
+  right: -3.5%;
+  top: -10%;
+  width: 21%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 0deg, #1a1a1c 0deg 4deg, #3a3a3e 4deg 8deg),
+    #222;
+  box-shadow:
+    0 1.4cqw 2.4cqw rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1.4cqw rgba(30, 30, 32, 0.92);
+  transition: transform 0.8s var(--ease-out);
+}
+
+.console__dial::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 45%),
+    radial-gradient(circle, #2c2c30 0.3cqw, #1f1f22 0.6cqw) 0 0 / 1.1cqw 1.1cqw;
+}
+
+.console:hover {
+  transform: translateY(-6px);
+}
+
+.console:hover .console__btn--b {
+  background: radial-gradient(circle at 35% 30%, #ffd0a0, #ff8a2a 50%, #e05a00 100%);
+  box-shadow:
+    0 0 2.4cqw rgba(255, 130, 30, 0.9),
+    0 0 5cqw rgba(255, 130, 30, 0.45),
+    inset 0 0.3cqw 0.4cqw rgba(255, 255, 255, 0.6);
+}
+
+.console:hover .console__dial {
+  transform: rotate(60deg);
+}
+
+/* ---------- Books ----------
+ * Rebuilt from the reference's "3D book": a 250px stage with perspective 1000px holds a 50px spine (hinged on its
+ * right edge) and a 200px cover (hinged on its left edge). Both transition over 500ms ease. At rest the spine is
+ * rotated -30deg and the cover 81deg; on hover -65deg and 30deg. The stage's negative margins make the layout box
+ * exactly as wide as what is visible, so neighbours slide apart as a book opens:
+ *   margin-left  = -50px * (1 - cos(spine))
+ *   margin-right = -200px * (1 - cos(cover))
+ * (-6.699px / -168.713px at rest, -28.869px / -26.77px on hover, exactly the reference's numbers).
+ */
+
+.paper-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.books {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.book {
+  --sa: 30deg;
+  --ca: 81deg;
+  display: block;
+  flex: none;
+  font-family: var(--font-ui);
+  line-height: normal; /* the inline cover image then leaves the reference's 3px line-box gap (253px tall) */
+}
+
+.book:hover {
+  --sa: 65deg;
+  --ca: 30deg;
+}
+
+.book__stage {
+  display: flex;
+  flex: none;
+  width: 250px;
+  perspective: 1000px;
+  transition: all 500ms ease;
+  margin-left: calc(-50px * (1 - cos(var(--sa))));
+  margin-right: calc(-200px * (1 - cos(var(--ca))));
+}
+
+.book__spine {
+  position: relative;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex: none;
+  width: 50px;
+  height: 250px;
+  transform-origin: right center;
+  background-color: var(--spine);
+  color: var(--ink);
+  transform: rotateY(calc(var(--sa) * -1));
+  transition: all 500ms ease;
+  filter: brightness(0.8) contrast(2);
+}
+
+.book__title {
+  margin-top: 12px;
+  max-height: 225px;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1em;
+  letter-spacing: -0.03em;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.book__cover {
+  position: relative;
+  transform-style: preserve-3d;
+  flex: none;
+  overflow: hidden;
+  transform-origin: left;
+  transform: rotateY(var(--ca));
+  transition: all 500ms ease;
+  filter: brightness(0.8) contrast(2);
+}
+
+/* paper grain: SVG turbulence + diffuse lighting at 40%, as on the reference */
+.book__paper {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  height: 250px;
+  width: 100%;
+  opacity: 0.4;
+  filter: url('#paper');
+}
+
+.book__paper--cover {
+  width: 200px;
+}
+
+/* the spine crease highlights down the cover's left edge */
+.book__shine {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  height: 250px;
+  width: 200px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 2px,
+    rgba(255, 255, 255, 0.5) 3px,
+    rgba(255, 255, 255, 0.25) 4px,
+    rgba(255, 255, 255, 0.25) 6px,
+    transparent 7px,
+    transparent 9px,
+    rgba(255, 255, 255, 0.25) 9px,
+    transparent 12px
+  );
+}
+
+.book__img {
+  display: inline; /* inline on the reference too: the line box makes the cover 253px tall */
+  width: 200px;
+  height: 250px;
+  max-width: none;
+  max-height: 100%;
+}
+
+/* no cover supplied: a plain cover in the spine colour */
+.book__blank {
+  display: block;
+  width: 200px;
+  height: 250px;
+  background: var(--spine);
+}
+
+/* ---------- Archive list ---------- */
+
+.archive {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.archive__row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 4px;
+  border-radius: 14px;
+  color: #000;
+  transition: background 0.3s;
+}
+
+a.archive__row:hover {
+  background: rgba(179, 156, 239, 0.14);
+}
+
+.archive__thumb {
+  flex: none;
+  width: 200px;
+  aspect-ratio: 1.75;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(60, 40, 140, 0.12);
+}
+
+.archive__thumb .mock {
+  transition: transform 0.6s var(--ease-out);
+}
+
+.archive__row:hover .archive__thumb .mock {
+  transform: scale(1.06);
+}
+
+.archive__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.archive__title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.archive__date {
+  color: var(--text-faint);
+  margin-top: -6px;
+}
+
+.archive__tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--lavender);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+@media (max-width: 809px) {
+  .archive__thumb {
+    width: 120px;
+  }
+  .archive__row {
+    gap: 12px;
+  }
+}
+
+/* ---------- User-supplied images (src/assets/user) ---------- */
+
+.console__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4cqw;
+}
+
+/* ---------- Original console renders (local study mode) ----------
+ * All numbers are in the base image's own pixels (1271×655), converted to container units of the
+ * 689px-wide card box: stage width 1271/689 = 184.47cqw, shell left at 35px, shell top 34px below the box top.
+ */
+
+.console-wrap--orig {
+  padding: 0;
+}
+
+.console-wrap--orig .console {
+  aspect-ratio: 689 / 438;
+}
+
+.console > .co {
+  inset: 0;
+}
+
+.co__stage {
+  position: absolute;
+  left: -45.4cqw;
+  top: -13.06cqw;
+  width: 184.47cqw;
+  aspect-ratio: 1271 / 655;
+}
+
+.co__stage > * {
+  position: absolute;
+  display: block;
+}
+
+.co__base {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.co__hover {
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+}
+
+.console:hover .co__hover,
+.console:focus-visible .co__hover {
+  opacity: 1;
+}
+
+/* screen hole (384,181) 315×315 + 4px bleed; LCD hole (721,174) 235×217 */
+.co__screen {
+  left: 30.1%;
+  top: 27%;
+  width: 25.1%;
+  height: 48.7%;
+  overflow: hidden;
+  border-radius: 8% / 8%;
+  background: #f6efe6;
+}
+
+.co__screen .mock {
+  width: 100%;
+  height: 100%;
+}
+
+.co__led {
+  left: 56.72%;
+  top: 26.56%;
+  width: 18.49%;
+  height: 33.13%;
+  max-width: none;
+}
+
+.lottie-screen {
+  width: 100%;
+  height: 100%;
+}
+
+.lottie-screen svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.console-wrap--orig .console:hover {
+  transform: none;
+}
