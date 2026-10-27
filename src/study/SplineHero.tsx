@@ -21,6 +21,39 @@ export default function SplineHero() {
     let visible = true
     let disposed = false
 
+    // Adaptive resolution: when the scene cannot hold ~18fps the canvas is re-rendered at a lower
+    // resolution (CSS still stretches it to the full box), stepping down 100% -> 80% -> 65%.
+    const scales = [1, 0.8, 0.65]
+    let step = 0
+    let samples: number[] = []
+    let windowStart = 0
+    let last = 0
+    let raf = 0
+    const watch = (t: number) => {
+      raf = requestAnimationFrame(watch)
+      const dt = t - last
+      last = t
+      // a long gap means the scene was paused (off screen, hidden tab) rather than slow
+      if (!loaded || app.isStopped || dt > 3000 || dt <= 0) {
+        samples = []
+        return
+      }
+      if (!samples.length) windowStart = t
+      samples.push(Math.min(dt, 250))
+      // judge over a ~2s window (at least 3 frames, however slow they are)
+      if (t - windowStart < 2000 || samples.length < 3) return
+      const median = [...samples].sort((a, b) => a - b)[samples.length >> 1]
+      samples = []
+      if (median > 55 && step < scales.length - 1) {
+        step++
+        app.setSize(Math.round(wrap.clientWidth * scales[step]), Math.round(wrap.clientHeight * scales[step]))
+      }
+    }
+    raf = requestAnimationFrame(watch)
+    // setSize() switches the runtime's own auto-resize off, so keep the stepped-down size in line with the box
+    const onResize = () => step > 0 && app.setSize(Math.round(wrap.clientWidth * scales[step]), Math.round(wrap.clientHeight * scales[step]))
+    window.addEventListener('resize', onResize)
+
     const sync = () => {
       if (!loaded || disposed) return
       const run = visible && !document.hidden
@@ -49,6 +82,8 @@ export default function SplineHero() {
 
     return () => {
       disposed = true
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
       io.disconnect()
       document.removeEventListener('visibilitychange', sync)
       app.dispose()

@@ -9,6 +9,7 @@ import { ArrowUpRight } from '../components/Icons'
 import { Balloon, CloudImage, Galaxy } from '../components/Scenery'
 import Parallax, { useParallax } from '../components/Parallax'
 import MonitorScene from '../components/MonitorScene'
+import { useOffscreenPause } from '../hooks/useOffscreenPause'
 import Polaroid from '../components/Polaroid'
 import ProjectCard from '../components/ProjectCard'
 import Books from '../components/Books'
@@ -84,7 +85,7 @@ function Decor() {
       <Parallax rate={0.3} anchor="page" className="decor__balloon">
         <Pic k="balloon" className="decor__balloon-img" fallback={<Balloon />} />
       </Parallax>
-      <Parallax rate={0.5} anchor="page" className="decor__galaxy">
+      <Parallax rate={0.5} anchor="page" park={0.48} className="decor__galaxy">
         <div ref={galaxy}>
           <Pic k="galaxy" className="decor__galaxy-img" fallback={<Galaxy />} />
         </div>
@@ -119,10 +120,13 @@ function useMinWidth(px: number) {
 
 function Hero() {
   const wide = useMinWidth(1000)
+  const { interactive } = useInteractive()
   const original = import.meta.env.DEV && document.documentElement.dataset.original === '1'
   const words = [...site.marquee, ...site.marquee]
+  const root = useRef<HTMLElement>(null)
+  useOffscreenPause(root)
   return (
-    <section className="hero" aria-label="Introduction">
+    <section ref={root} className="hero" aria-label="Introduction">
       <div className="hero__stars" aria-hidden="true">
         {[0, 1, 2, 3, 4].map((i) => (
           <i key={i} className={`hero__star hero__star--${i}`} />
@@ -149,14 +153,15 @@ function Hero() {
           <span>{site.tagline[0]}</span> <span>{site.tagline[1]}</span>
         </p>
       </div>
-      {original && SplineHero && wide ? (
+      {original && SplineHero && wide && interactive ? (
         // direct child of the hero: its box is 120vw × 110vh at (-10vw, 64px - 10vh), like the reference's embed
         <Suspense fallback={null}>
           <SplineHero />
         </Suspense>
       ) : original && userAsset('hero-static') ? (
         // below 1000px the reference shows a static render in a 100vw × 50vh box instead of the live scene
-        <img className="hero__static" src={userAsset('hero-static')} alt="" />
+        // lite mode on wide screens: the same render, framed like the live scene (120vw x 100vh)
+        <img className={`hero__static ${wide ? 'hero__static--wide' : ''}`} src={userAsset('hero-static')} alt="" />
       ) : (
         <div className="hero__scene blur-in" style={{ '--delay': '0.3s' } as CSSProperties}>
           <MonitorScene />
@@ -233,7 +238,7 @@ function Statement() {
   const tokens = statement.text.split(' ')
   // The headline drifts up at -0.1 × scrollY on the reference (-150px at 1500, -210px at 2100).
   const drift = useRef<HTMLDivElement>(null)
-  useParallax(drift, -0.1, 'page', 810)
+  useParallax(drift, -0.1, 'page', 810, 0.62)
 
   return (
     <section className="statement" aria-label="Experience in brief">
@@ -315,7 +320,15 @@ function Journey() {
                   {j.logoSrc ? <img src={j.logoSrc} alt="" loading="lazy" /> : j.logo}
                 </span>
                 <div>
-                  <p className="journey__role">{j.role}</p>
+                  <p className="journey__role" aria-label={j.role}>
+                    {j.role.split(' ').map((w, i) => (
+                      <span key={i} aria-hidden="true">
+                        {i > 0 && ' '}
+                        {w[0]}
+                        <span className="journey__sc">{w.slice(1)}</span>
+                      </span>
+                    ))}
+                  </p>
                   <h3 className="journey__org display grad-dark">{j.org}</h3>
                   <p className="journey__text">{j.text}</p>
                 </div>

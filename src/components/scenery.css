@@ -20,6 +20,10 @@
 .parallax {
   position: absolute;
   pointer-events: none;
+}
+
+/* only promote these big layers while they are actually being moved */
+html[data-mode='interactive'] .parallax {
   will-change: transform;
 }
 
@@ -88,4 +92,9 @@
   filter: drop-shadow(0 4px 10px rgba(40, 60, 140, 0.35));
   animation: float 5s ease-in-out infinite;
   pointer-events: none;
+}
+
+.is-offscreen,
+.is-offscreen * {
+  animation-play-state: paused !important;
 }

@@ -1,4 +1,5 @@
-import { Suspense, lazy, useMemo, type CSSProperties } from 'react'
+import { Suspense, lazy, useMemo, useRef, type CSSProperties } from 'react'
+import { useOffscreenPause } from '../hooks/useOffscreenPause'
 import { site } from '../content'
 import { SocialGlyph } from './Icons'
 import Parallax from './Parallax'
@@ -128,8 +129,10 @@ function HillGlow() {
 export default function Contact() {
   const original = Boolean(userAsset('hill'))
   const stars = userAsset('button-stars')
+  const root = useRef<HTMLElement>(null)
+  useOffscreenPause(root)
   return (
-    <footer className="finale" aria-labelledby="contact-heading">
+    <footer ref={root} className="finale" aria-labelledby="contact-heading">
       <div className="finale__abs">
         {original ? (
           <>

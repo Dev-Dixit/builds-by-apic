@@ -110,7 +110,7 @@
 .socials {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1; /* below the hill (2): the grass overlaps the bottom of each tile, as on the reference */
   margin: 0;
   padding: 0;
   list-style: none;

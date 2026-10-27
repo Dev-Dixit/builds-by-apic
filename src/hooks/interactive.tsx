@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 
-const KEY = 'interactive-mode'
+// v2: the default flipped to OFF, so choices saved by the old ON-by-default build are ignored
+const KEY = 'interactive-mode-v2'
 
 type Ctx = { interactive: boolean; toggle: () => void }
-const InteractiveContext = createContext<Ctx>({ interactive: true, toggle: () => {} })
+const InteractiveContext = createContext<Ctx>({ interactive: false, toggle: () => {} })
 
 function readStored(): boolean {
   try {
@@ -12,7 +13,7 @@ function readStored(): boolean {
   } catch {
     /* storage unavailable */
   }
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return false
 }
 
 export function InteractiveProvider({ children }: { children: ReactNode }) {

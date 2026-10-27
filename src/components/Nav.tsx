@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { site } from '../content'
 import { useInteractive } from '../hooks/interactive'
+import { userAsset } from '../userAssets'
 import './nav.css'
 
 const links = [
@@ -12,6 +13,7 @@ const links = [
 
 function ModeToggle() {
   const { interactive, toggle } = useInteractive()
+  const stars = userAsset('toggle-stars')
   return (
     <button className="mode-toggle" onClick={toggle} role="switch" aria-checked={interactive} aria-label="Interactive mode">
       <span className="mode-toggle__label">
@@ -20,8 +22,9 @@ function ModeToggle() {
         Mode
       </span>
       <span className={`mode-toggle__track ${interactive ? 'is-on' : ''}`}>
-        <span className="mode-toggle__text">{interactive ? 'ON' : 'OFF'}</span>
+        {stars && <img className="mode-toggle__stars" src={stars} alt="" draggable={false} />}
         <span className="mode-toggle__knob" />
+        <span className="mode-toggle__text">{interactive ? 'ON' : 'OFF'}</span>
       </span>
     </button>
   )

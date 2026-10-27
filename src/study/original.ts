@@ -7,7 +7,11 @@
 
 import { registerUserAssets } from '../userAssets'
 
-const images = import.meta.glob<string>('../../study-assets/images/*', { eager: true, query: '?url', import: 'default' })
+const originals = import.meta.glob<string>('../../study-assets/images/*', { eager: true, query: '?url', import: 'default' })
+// right-sized copies of the oversized originals (scripts/optimize-study-images.mjs); preferred when present
+const optimised = import.meta.glob<string>('../../study-assets/images-opt/*', { eager: true, query: '?url', import: 'default' })
+const images: Record<string, string> = { ...originals }
+for (const [path, url] of Object.entries(optimised)) images[path.replace('/images-opt/', '/images/')] = url
 const fonts = import.meta.glob<string>('../../study-assets/fonts/*.woff2', { eager: true, query: '?url', import: 'default' })
 
 const find = (dir: Record<string, string>, prefix: string) =>
@@ -45,6 +49,8 @@ const slots: Record<string, string> = {
   'hero-static': 'KG8R1mCV',
   // the starfield revealed inside the Send button on hover
   'button-stars': 'xL46HDxe',
+  // the nebula inside the Interactive Mode switch
+  'toggle-stars': 'wTeY9UbxQ6N6H1K6TC',
   // scenery
   'hero-cloud': 'Y2BXve92',
   'hero-glow': 'nOXAMTM3',

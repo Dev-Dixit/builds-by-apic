@@ -115,8 +115,9 @@
 }
 
 .decor__cloud3 {
-  z-index: 6 !important;
-  top: calc(220vh + 916px);
+  /* sits behind the Wisdom books and text (their sections are z3), like the reference's z6-inside-z1 layer */
+  z-index: 0;
+  top: calc(220vh + 876px); /* the reference's offset is 0.31 x scroll - 40px */
   left: calc(50% - 61.5px);
   width: 980px;
   height: 273px;
@@ -181,6 +182,9 @@
 
 .hero__sub span {
   display: block;
+  /* the reference sets the two lines at 16px inside a 14.4px paragraph */
+  font-size: 1rem;
+  line-height: 16px;
 }
 
 /*
@@ -507,6 +511,7 @@
 }
 
 .wisdom__quote {
+  margin-top: 2px;
   font-style: italic;
   font-weight: 300;
 }
@@ -538,6 +543,23 @@
 
 .journey__head {
   position: relative;
+}
+
+/* the reference's Wisdom text scrolls away with the page (it is not pinned) and sits 2px right of the shared column */
+@media (min-width: 1000px) {
+  .wisdom .section-text {
+    position: relative;
+    top: 0;
+    margin-left: 2px;
+  }
+}
+
+/* the reference pins this heading 10px lower and 2px further right than the other sections' text */
+@media (min-width: 1000px) {
+  .journey__head .section-text {
+    top: 42px;
+    margin-left: 2px;
+  }
 }
 
 .journey__line {
@@ -602,6 +624,7 @@
   line-height: 1.6;
   letter-spacing: -0.02em;
   margin-bottom: 10px;
+  opacity: 0.75;
 }
 
 .journey__row {
@@ -630,9 +653,14 @@
   font-size: 1.2rem;
   font-weight: 500;
   line-height: 0.9;
-  font-variant: small-caps;
   letter-spacing: -0.02em;
-  margin-top: 3px;
+  opacity: 0.5;
+}
+
+.journey__sc {
+  /* small caps: the face has no smcp feature, so lowercase is set as capitals at a reduced size */
+  text-transform: uppercase;
+  font-size: 0.86em;
 }
 
 .journey__org {
@@ -644,9 +672,23 @@
   max-width: 345px;
   font-size: 1rem;
   letter-spacing: -0.02em;
+  opacity: 0.7;
 }
 
 /* ---------- Responsive ---------- */
+
+/* lite mode: static render in place of the live Spline scene */
+.hero__static--wide {
+  position: absolute;
+  z-index: 3;
+  left: -10vw;
+  top: 64px;
+  width: 120vw;
+  max-width: none;
+  height: 100vh;
+  object-fit: cover;
+  pointer-events: none;
+}
 
 @media (max-width: 999px) {
   /* the page-anchored layers are placed in desktop document coordinates */

@@ -38,3 +38,16 @@ Local study mode is on by default in `npm run dev`; `?original=0` shows the gene
 - Scroll behaviour of the Spline scene: I found no scroll-driven transform on the reference's embed beyond its page position, so none was added. The scene reacts to the pointer through Spline's own runtime.
 - The first frame may show the substitute fonts and hero before the scene and fonts finish loading.
 - Not compared pixel-for-pixel against the reference after these changes; checked by eye in the browser pane.
+
+## Right-sized image copies (smooth scrolling)
+
+Some originals are camera-sized (a 13-megapixel photo shown at 324px). Decoding them the first time they scroll into view
+stalls a frame for 100ms+. `node scripts/optimize-study-images.mjs` writes capped copies to `study-assets/images-opt/`
+(2–3× the largest displayed size, read from `study-assets/image-sizes.json`); `src/study/original.ts` prefers them and
+falls back to the originals. Re-run it after adding images. Both folders are git-ignored and never reach `dist`.
+
+## Interactive Mode
+
+Off by default (choice stored under `interactive-mode-v2`). Off = native scrolling, no preloader, no parallax, and the
+static hero render instead of the live Spline scene. On = Lenis smooth scroll, parallax, the Spline scene (which lowers
+its own render resolution if it cannot hold ~30fps).

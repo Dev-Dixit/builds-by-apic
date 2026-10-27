@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Nav from './components/Nav'
 import Preloader from './components/Preloader'
 import { useInteractive } from './hooks/interactive'
+import { usePredecode } from './hooks/usePredecode'
 import { refreshScroll, scrollToTop, setSmoothScroll } from './hooks/scroll'
 import HomePage from './pages/HomePage'
 import WorksPage from './pages/WorksPage'
@@ -45,6 +46,7 @@ function SmoothScroll() {
 }
 
 export default function App() {
+  usePredecode()
   return (
     <>
       <ScrollToTop />
