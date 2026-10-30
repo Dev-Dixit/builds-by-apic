@@ -51,3 +51,8 @@ falls back to the originals. Re-run it after adding images. Both folders are git
 Off by default (choice stored under `interactive-mode-v2`). Off = native scrolling, no preloader, no parallax, and the
 static hero render instead of the live Spline scene. On = Lenis smooth scroll, parallax, the Spline scene (which lowers
 its own render resolution if it cannot hold ~30fps).
+
+## Compact (< 1000px) footer islands
+
+`study-assets/images/z8kGn5qO….png` (150×150) and `RsPRTVes….png` (109×104) are the two floating islands the reference shows
+in its footer below 1000px (slots `island-a` / `island-b` in `src/study/original.ts`). Dev study mode only, like the rest.

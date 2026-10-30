@@ -589,6 +589,169 @@
     0 14px 28px rgba(20, 10, 60, 0.3);
 }
 
+/* the islands and the resume link exist only in the reference's compact footer */
+.islands,
+.contact__resume {
+  display: none;
+}
+
+/*
+ * Compact footer (≤ 999px), fitted from the reference at 390px. Same 947px box; positions are from its top edge and
+ * centred horizontally. Tiles are 88px, the hill 784px wide, the ground layers 61% and 68% of their desktop size.
+ */
+@media (max-width: 999px) {
+  .og__back {
+    top: 559px;
+    left: calc(50% - 918px);
+    width: 1838px;
+    height: 356px;
+  }
+  .og__hill {
+    top: 427px;
+    left: calc(50% - 404px);
+    width: 784px;
+    height: 488px;
+  }
+  .og__front {
+    top: 528px;
+    left: calc(50% - 1020px);
+    width: 2038px;
+    height: 388px;
+  }
+  .og__shadow {
+    width: 90px;
+    height: 20px;
+  }
+  .og__shadow--a {
+    left: calc(50% - 43.3px);
+    top: 777px;
+  }
+  .og__shadow--b {
+    left: calc(50% - 149.8px);
+    top: 794.6px;
+  }
+  .og__shadow--c {
+    left: calc(50% + 69.1px);
+    top: 788.4px;
+  }
+
+  .socials li,
+  .social {
+    width: 88px;
+    height: 88px;
+  }
+  .social {
+    border-radius: 20px;
+  }
+  .socials li:has(.social--instagram) {
+    left: calc(50% - 156px);
+    top: 707px;
+  }
+  .socials li:has(.social--linkedin) {
+    left: calc(50% - 44px);
+    top: 699px;
+  }
+  .socials li:has(.social--medium) {
+    left: calc(50% + 68px);
+    top: 703px;
+  }
+
+  .islands {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .islands img {
+    position: absolute;
+    max-width: none;
+  }
+  .islands__a {
+    left: calc(50% - 248px);
+    top: 89px;
+    width: 150px;
+    height: 150px;
+  }
+  .islands__cloud {
+    left: calc(50% - 266px);
+    top: 142px;
+    width: 186px;
+    height: 59px;
+  }
+  .islands__b {
+    left: calc(50% + 125px);
+    top: 199px;
+    width: 102px;
+    height: 102px;
+  }
+
+  .finale__cloud {
+    top: 645px;
+    left: calc(50% - 196px);
+    width: 390px;
+    height: 123px;
+  }
+  .finale__fade {
+    top: 760px;
+    height: 187px;
+  }
+  .finale__note {
+    top: 117px;
+  }
+
+  .status {
+    top: 313px;
+  }
+  .finale__contact {
+    top: 393px;
+  }
+  /* the button is drawn 1.3× larger here (266×71) */
+  .send {
+    zoom: 1.3;
+    margin-top: -16.35px; /* zoom scales margins too: -21.25px / 1.3 */
+  }
+  .contact__email {
+    margin-top: 40.75px;
+  }
+  .bf__wrap {
+    left: calc(50% - 195px) !important;
+    top: 0 !important;
+  }
+  .bf:nth-child(1) {
+    left: 1302px !important;
+    top: 861px !important;
+  }
+  .bf:nth-child(2) {
+    left: 294px !important;
+    top: 774px !important;
+  }
+  .bf:nth-child(3) {
+    left: 197px !important;
+    top: 727px !important;
+  }
+  .bf:nth-child(4) {
+    left: 305px !important;
+    top: 613px !important;
+  }
+  .bf:nth-child(5) {
+    left: -23px !important;
+    top: 752px !important;
+  }
+  .bf:nth-child(6) {
+    left: 331px !important;
+    top: 775px !important;
+  }
+  .contact__resume {
+    display: inline-flex;
+    margin-top: 40px;
+    font-size: 1rem;
+    line-height: 25.6px;
+    color: #171717;
+    opacity: 0.6;
+    pointer-events: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .status__ping {
     animation: none;

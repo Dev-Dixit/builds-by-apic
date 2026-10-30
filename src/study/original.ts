@@ -39,6 +39,8 @@ const slots: Record<string, string> = {
   'console-glow-white': 'MoBEDx43',
   'console-glow-orange': 'ZrbOazVb',
   'console-glow-purple': 'FJ7iniS4',
+  'console-ring': 'ofpBgHfE',
+  'console-rim': '4Sg397mc',
   'led-checkout-revamp': '2fZX6w4g',
   'led-field-sales-app': 'mOLi3BnY',
   'led-admin-panel': 'hLXJhFzB',
@@ -61,6 +63,9 @@ const slots: Record<string, string> = {
   balloon: '1DBnexK5',
   galaxy: 'LpCdfVdX',
   'footer-cloud': 'Rr9v8yPc',
+  // the two floating islands shown in the footer below 1000px
+  'island-a': 'z8kGn5qO',
+  'island-b': 'RsPRTVes',
   'grass-back': 'D6726FNp',
   'grass-front': 'YX7G1ywB',
   hill: 'syeBc8oc',

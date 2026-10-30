@@ -1,7 +1,7 @@
 import { Suspense, lazy, useMemo, useRef, type CSSProperties } from 'react'
 import { useOffscreenPause } from '../hooks/useOffscreenPause'
 import { site } from '../content'
-import { SocialGlyph } from './Icons'
+import { ArrowUpRight, SocialGlyph } from './Icons'
 import Parallax from './Parallax'
 import { CloudImage } from './Scenery'
 import { userAsset } from '../userAssets'
@@ -166,6 +166,15 @@ export default function Contact() {
 
         {original && <img className="og og__front" src={userAsset('grass-front')} alt="" />}
 
+        {/* the two floating islands the reference adds below 1000px */}
+        {userAsset('island-a') && (
+          <div className="islands">
+            <img className="islands__a" src={userAsset('island-a')} alt="" />
+            <img className="islands__cloud" src={userAsset('footer-cloud')} alt="" />
+            <img className="islands__b" src={userAsset('island-b')} alt="" />
+          </div>
+        )}
+
         {original && Butterflies ? (
           <Suspense fallback={null}>
             <Butterflies />
@@ -216,6 +225,9 @@ export default function Contact() {
         <p className="contact__email">
           <span>{site.email}</span>
         </p>
+        <a className="arrow-link contact__resume" href={site.resumeUrl} target="_blank" rel="noreferrer">
+          View my Resume <ArrowUpRight />
+        </a>
       </div>
     </footer>
   )

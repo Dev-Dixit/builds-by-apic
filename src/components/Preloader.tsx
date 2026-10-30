@@ -94,8 +94,8 @@ export default function Preloader() {
         For a faster experience,
         <br />
         turn off Interactive mode.
-        <svg viewBox="0 0 40 56" aria-hidden="true">
-          <path d="M22 2c10 12 10 30-6 46M16 48l1-12M16 48l11-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 30 61" aria-hidden="true">
+          <path d="M17 2c11 13 11 33-9 55M8 57l1-15M8 57l14-5" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </p>
     </div>

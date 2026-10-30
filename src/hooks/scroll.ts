@@ -72,6 +72,15 @@ export function scrollToTop() {
   refreshScroll()
 }
 
+/** Smooth-scroll to a section of the page (Lenis when enabled, native smooth scrolling otherwise). */
+export function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const top = el.getBoundingClientRect().top + window.scrollY - 24
+  if (lenis) lenis.scrollTo(top, { duration: 1.4 })
+  else window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+}
+
 /** Pause/resume user scrolling (used while the preloader is up). */
 export function lockScroll(locked: boolean) {
   if (lenis) {

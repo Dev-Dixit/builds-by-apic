@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import SectionLink from './SectionLink'
 import { Suspense, lazy, type CSSProperties } from 'react'
 import type { Project } from '../content'
 import Mockup from './Mockup'
@@ -63,9 +63,9 @@ export default function ProjectCard({ project, index = 0 }: { project: Project; 
           {body}
         </a>
       ) : (
-        <Link className="console" to={`/works/${project.slug}`} aria-label={plain}>
+        <SectionLink className="console" to="works" aria-label={plain}>
           {body}
-        </Link>
+        </SectionLink>
       )}
     </div>
   )
@@ -74,9 +74,14 @@ export default function ProjectCard({ project, index = 0 }: { project: Project; 
 /** The reference's own console renders (study mode): shell, LCD panel, Lottie screen and lit-button glow. */
 function ConsoleOriginal({ project }: { project: Project }) {
   const c = project.console!
+  // Every card on the reference carries the same stack (identical at rest and on hover, whatever its project):
+  // two shell variants and the white shell at rest, the rim ring, and on hover the white glow plus two rim lights.
+  const orangeGlow = userAsset('console-glow-orange')
+  const orangeBase = userAsset('console-base-orange')
   const base = userAsset('console-base-white')
-  const hoverBase = userAsset(`console-base-${c.hover}`)
-  const glow = userAsset(`console-glow-${c.hover}`)
+  const whiteGlow = userAsset('console-glow-white')
+  const ring = userAsset('console-ring')
+  const rim = userAsset('console-rim')
   return (
     <span className="co">
       <span className="co__stage">
@@ -88,9 +93,13 @@ function ConsoleOriginal({ project }: { project: Project }) {
             <Mockup kind={project.mockup} />
           )}</span>
         <img className="co__led" src={c.led} alt="" loading="lazy" />
+        {orangeGlow && <img className="co__base" src={orangeGlow} alt="" loading="lazy" />}
+        {orangeBase && <img className="co__base" src={orangeBase} alt="" loading="lazy" />}
         <img className="co__base" src={base} alt="" loading="lazy" />
-        {hoverBase && <img className="co__base co__hover" src={hoverBase} alt="" loading="lazy" />}
-        {glow && <img className="co__base co__hover" src={glow} alt="" loading="lazy" />}
+        {whiteGlow && <img className="co__base co__hover" src={whiteGlow} alt="" loading="lazy" />}
+        {ring && <img className="co__ring" src={ring} alt="" loading="lazy" />}
+        {rim && <img className="co__base co__hover" src={rim} alt="" loading="lazy" />}
+        {rim && <img className="co__base co__hover" src={rim} alt="" loading="lazy" />}
       </span>
     </span>
   )

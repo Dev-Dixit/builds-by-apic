@@ -30,17 +30,15 @@
 
 .decor__hero-cloud {
   top: 129px;
-  left: calc(50% - 935.5px);
+  left: calc(50% - 943px);
   width: 989px;
   height: 659px;
   mix-blend-mode: overlay;
-  opacity: 0.65;
-  filter: blur(2px);
 }
 
 .decor__hero-cloud--r {
   top: -20px;
-  left: calc(50% - 33.5px);
+  left: calc(50% - 26px);
 }
 
 /* the reference's "Ellipse comp up" layer: a 3600×1206 lavender-pink glow behind the hero scene */
@@ -63,25 +61,49 @@
   background: radial-gradient(50% 50% at 50% 50%, rgba(196, 178, 246, 0.98) 0%, rgba(186, 166, 243, 0.85) 38%, rgba(179, 156, 239, 0) 100%);
 }
 
+/* the reference's own glow and mist renders replace these CSS stand-ins; keeping both washes the sky out */
+[data-original='1'] .decor__hero-glow,
+[data-original='1'] .decor__mist {
+  background: none;
+}
+
 .decor__cloud2,
 .decor__cloud2b {
   top: calc(160vh + 254px); /* anchored to the Works block: 1.6vh + 166px + 88px */
-  left: calc(50% - 1012.5px);
+  left: calc(50% - 1020px);
   width: 1207px;
   height: 522px;
   mix-blend-mode: overlay;
-  opacity: 0.85;
+}
+
+.decor__cloud2 {
+  top: calc(160vh + 270px);
 }
 
 .decor__cloud2b {
-  top: calc(220vh + 2138px);
+  top: calc(220vh + 2146px);
 }
 
 .decor__cloud2b-inner {
   width: 100%;
   height: 100%;
-  opacity: 0;
   transform: scaleX(-1);
+}
+
+/* slides in from the left (x -88px, y 20px) and fades up the first time it scrolls into view */
+.decor__reveal {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  translate: -88px 20px;
+  transition:
+    opacity 0.8s var(--ease-out),
+    translate 0.8s var(--ease-out);
+}
+
+.decor__reveal.is-in {
+  opacity: 1;
+  translate: 0 0;
 }
 
 .decor__balloon {
@@ -100,14 +122,48 @@
 
 .decor__galaxy {
   top: calc(160vh + 784px);
-  left: calc(50% - 818.5px);
+  left: calc(50% - 826px);
   width: 491px;
   height: 320px;
   mix-blend-mode: screen;
-  perspective: 900px;
 }
 
-.decor__galaxy > div {
+/* original galaxy: a pre-skewed 349x233 wrapper centred in the box, then the scroll-driven 348x232 layer */
+.galaxy__a {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 349px;
+  height: 233px;
+  transform-origin: 174.5px 116.352px;
+  transform: matrix3d(1.12495, 0.0874887, 0, 0, 1.42815, 1, 0, 0, 0.0349, 0.0232703, 1, -0.0002, -174.5, -116.352, 0, 1);
+  transform-style: preserve-3d;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out);
+}
+
+.galaxy__a.is-in {
+  opacity: 1;
+}
+
+.galaxy__b {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  transform-origin: 174px 116px;
+  transform-style: preserve-3d;
+  transform: matrix3d(1.0798, 0.3276, 0, 0, -1.694, 0.4122, 0, 0, 0, 0, 1, -0.0002, 0, 0, 0, 1);
+}
+
+.galaxy__img {
+  display: block;
+  width: 348px;
+  height: 232px;
+  max-width: none;
+  object-fit: contain;
+}
+
+.decor__galaxy > div:not(.galaxy__a) {
   width: 100%;
   height: 100%;
   display: grid;
@@ -117,11 +173,10 @@
 .decor__cloud3 {
   /* sits behind the Wisdom books and text (their sections are z3), like the reference's z6-inside-z1 layer */
   z-index: 0;
-  top: calc(220vh + 876px); /* the reference's offset is 0.31 x scroll - 40px */
+  top: calc(220vh + 916px);
   left: calc(50% - 61.5px);
   width: 980px;
   height: 273px;
-  opacity: 0.9;
 }
 
 /* a long, flat bank: show its upper half only, as the reference's thin cloud strip */
@@ -131,10 +186,6 @@
   object-position: 50% 30%;
   -webkit-mask-image: linear-gradient(#000 55%, transparent);
   mask-image: linear-gradient(#000 55%, transparent);
-}
-
-[data-mode='lite'] .decor__cloud2b-inner {
-  opacity: 0.9;
 }
 
 /* ---------- Hero ---------- */
@@ -353,8 +404,19 @@
   transition-delay: 0s;
 }
 
+/* measured on the reference: 12px white frame, 41px caption strip, square-cornered, a faint 8px shadow */
+.who__photo {
+  padding: 12px 12px 0;
+  border-radius: 0;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+
 .who__photo .polaroid__photo {
-  aspect-ratio: 204 / 205;
+  aspect-ratio: 1 / 1;
+}
+
+.who__photo .polaroid__caption {
+  min-height: 41px;
 }
 
 .who__photo--0 {
@@ -376,7 +438,7 @@
 }
 
 .who__photo--3 .polaroid__photo {
-  aspect-ratio: 304 / 205;
+  aspect-ratio: 3 / 2;
 }
 
 [data-mode='lite'] .who__photo {
@@ -562,61 +624,67 @@
   }
 }
 
-.journey__line {
-  position: absolute;
-  left: 472px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.45);
-  -webkit-mask-image: linear-gradient(transparent, #000 6%, #000 88%, transparent);
-  mask-image: linear-gradient(transparent, #000 6%, #000 88%, transparent);
-}
-
-.journey__fill {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
-  transform-origin: top;
-  transform: scaleY(var(--progress, 1));
-}
-
-[data-mode='lite'] .journey__fill {
-  transform: none;
-}
-
 .journey__list {
   list-style: none;
-  margin: 0;
-  padding: 336px 0 0 103px;
+  margin: -10px 0 0;
+  padding: 0 0 0 103px;
 }
 
 .journey__item {
   position: relative;
+  display: flow-root; /* keeps the sticky block's top margin inside the entry */
   min-height: 851px;
 }
 
-.journey__item:last-child {
-  min-height: 505px;
+/* one 4px segment per entry (x 649.5 on the reference), fading in at the first and out at the last */
+.journey__seg {
+  position: absolute;
+  left: -104.5px;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: #fff;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.journey__seg.is-first {
+  background: linear-gradient(rgba(255, 255, 255, 0) 12.6126%, #fff 100%);
+}
+
+.journey__seg.is-last {
+  background: linear-gradient(#fff 0%, rgba(255, 255, 255, 0) 87.3874%);
+}
+
+/* the glowing node at the middle of each segment: a 22x24 blurred white disc around an 8px lavender core */
+.journey__node,
+.journey__core {
+  position: absolute;
+  border-radius: 953px;
+}
+
+.journey__node {
+  left: -9px;
+  top: 414px;
+  width: 22px;
+  height: 24px;
+  background: #fff;
+  filter: blur(3px);
+}
+
+.journey__core {
+  left: -2px;
+  top: 421.5px;
+  width: 8px;
+  height: 8px;
+  background: #c0ade5;
+  filter: blur(2px);
 }
 
 .journey__sticky {
   position: sticky;
   top: 40px;
-}
-
-/* ring on the timeline, level with the logo tile */
-.journey__dot {
-  position: absolute;
-  left: -110px;
-  top: 62px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background: rgba(179, 156, 239, 0.9);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  margin-top: 346px;
 }
 
 .journey__dates {
@@ -823,12 +891,18 @@
   .journey {
     grid-template-columns: 1fr;
   }
-  .journey__line {
-    left: 6px;
-    top: 160px;
-  }
   .journey__list {
+    margin: 0;
     padding: 40px 0 0 34px;
+  }
+  .journey__seg {
+    left: -31px;
+  }
+  .journey__node {
+    top: 0;
+  }
+  .journey__core {
+    top: 7.5px;
   }
   .journey__item,
   .journey__item:last-child {
@@ -837,10 +911,7 @@
   }
   .journey__sticky {
     position: static;
-  }
-  .journey__dot {
-    left: -34px;
-    top: 4px;
+    margin-top: 0;
   }
   .journey__row {
     flex-direction: column;
@@ -889,10 +960,10 @@
 
 .decor__mist-purple {
   position: absolute !important;
-  left: 0;
-  top: 156px;
-  width: 1995px !important;
-  height: 402px !important;
+  left: -11px;
+  top: 154px;
+  width: 2016px !important;
+  height: 406px !important;
   object-fit: fill !important;
   mix-blend-mode: color-burn;
   opacity: 0.7;
@@ -1047,5 +1118,206 @@
     top: calc(382px - 0.143 * (100vw - 390px)) !important;
     width: 140vw !important;
     height: 28vw !important;
+  }
+}
+
+/* ---------- Compact (≤ 999px): sections fitted from the reference at 390px ----------
+ * Below the hero the reference lays everything out as one fixed 345px column centred in the viewport, so the
+ * numbers here are pixels, not viewport fractions.
+ */
+@media (max-width: 999px) {
+  /* like the reference, layers that drift past the end of the page do not lengthen it */
+  .decor {
+    overflow-y: clip;
+  }
+  .hero__title {
+    padding-top: 36px;
+  }
+  .hero__name {
+    margin-top: 10px;
+  }
+  .hero__sub {
+    margin-top: 24px;
+  }
+  .hero__sub span {
+    display: inline;
+  }
+
+  /* Who am I: 4 polaroids at fixed sizes (frame = photo + 24px) */
+  .who {
+    gap: 0;
+  }
+  .who__collage {
+    aspect-ratio: auto;
+    height: 600px;
+    margin-top: 81px;
+    container-type: normal;
+  }
+  /* settled sizes on the reference: 140px photos in an 8px frame with a 29px caption strip */
+  .who__photo {
+    width: 156px;
+    padding: 8px 8px 0;
+  }
+  .who__photo .polaroid__caption {
+    min-height: 29px;
+  }
+  .who__photo--0 {
+    left: 55.5px;
+    top: 0;
+  }
+  .who__photo--1 {
+    left: 167.5px;
+    top: 128px;
+  }
+  .who__photo--2 {
+    left: 23px;
+    top: 233.5px;
+  }
+  .who__photo--3 {
+    left: 58.5px;
+    top: 393px;
+    width: 225px;
+  }
+
+  /* statement: 19.2px type on 44.4px lines, wordmarks at 60% */
+  /* a fixed-height box (the two 60vh gaps of the reference) with the headline centred in it, so the number of
+     wrapped lines does not move the sections below */
+  .statement {
+    height: calc(120vh + 57.2px);
+    padding-top: 0;
+  }
+  .statement > div {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: calc(60vh + 118.5px);
+    translate: 0 -50%;
+  }
+  .statement__text,
+  [data-original='1'] .statement__text {
+    font-size: 1.2rem;
+    line-height: 44.4px;
+  }
+  .statement__text .chip__img {
+    zoom: 0.6;
+  }
+
+  /* the cloud, balloon, galaxy and cloud banks of the reference, at their 390px positions at scroll 0 */
+  .decor .parallax.decor__cloud2,
+  .decor .parallax.decor__balloon,
+  .decor .parallax.decor__galaxy,
+  .decor .parallax.decor__cloud3,
+  .decor .parallax.decor__cloud2b {
+    display: block;
+  }
+  .decor__cloud2 {
+    top: calc(75vh + 1052px);
+    left: -300px;
+  }
+  .decor__balloon {
+    top: calc(75vh + 1244px);
+    left: 162px;
+    width: 57px;
+    height: 74px;
+  }
+  .decor__galaxy {
+    top: calc(75vh + 1674px);
+    left: -210px;
+  }
+  .decor__cloud3 {
+    top: calc(195vh + 1513px); /* 75vh hero + the two 60vh gaps above it */
+    left: -133px;
+  }
+  .decor__cloud2b {
+    top: calc(195vh + 2812px);
+    left: -303px;
+  }
+
+  .work {
+    gap: 110px;
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+  .work .section-text .arrow-link {
+    margin-top: 29.6px;
+  }
+  /* the reference's first card renders at double size here, over the second; the second and third swap places */
+  .work__cards > :nth-child(1) {
+    scale: 2;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .work__cards > :nth-child(1) .console {
+    pointer-events: auto;
+  }
+  .work__cards > :nth-child(2) {
+    order: 3;
+  }
+  .work__cards > :nth-child(3) {
+    order: 2;
+  }
+
+  .wisdom {
+    padding: 389px 0 234px;
+    gap: 0;
+  }
+  .wisdom__books {
+    margin-top: 89px;
+    padding-left: 23px;
+  }
+  .wisdom .books {
+    zoom: 0.8;
+  }
+
+  .journey {
+    padding-top: 0;
+  }
+  .journey__list {
+    padding: 0 0 2px 38.5px;
+  }
+  .journey__seg {
+    left: -41px;
+  }
+  .journey__node {
+    top: 198px;
+  }
+  .journey__core {
+    top: 206px;
+  }
+  .journey__item,
+  .journey__item:last-child {
+    min-height: 420px;
+    padding: 143px 0 0;
+  }
+  .journey__dates {
+    margin-bottom: 0;
+    line-height: 25.6px;
+  }
+  .journey__row {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 19px;
+  }
+  .journey__logo {
+    margin-top: 2px;
+    width: 98px;
+    height: 98px;
+    border-radius: 21px;
+  }
+  .journey__role {
+    margin-top: 3px;
+    line-height: 17.28px;
+  }
+  .journey__org {
+    margin-top: -5.7px;
+    font-size: 1.8rem; /* the reference's 2.3rem would clip names longer than "SDSLabs" in the 189px column */
+    line-height: 55.2px;
+  }
+  .journey__text {
+    max-width: 189px;
+    margin-top: -11.3px;
+    font-size: 0.8rem;
+    line-height: 21.76px;
   }
 }

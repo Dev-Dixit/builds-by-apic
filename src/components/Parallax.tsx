@@ -35,7 +35,9 @@ export function useParallax(ref: RefObject<HTMLElement | null>, rate: number, an
         }
         el.style.transform = ''
         const r = el.getBoundingClientRect()
-        const at = Math.max(0, (r.top + window.scrollY + r.height / 2 - vh * (park ?? 0.3)) / (1 - rate))
+        // a layer the page can never scroll far enough to park (a bank near the end of a short page) parks at the end
+        const last = Math.max(0, document.documentElement.scrollHeight - vh)
+        const at = Math.min(last, Math.max(0, (r.top + window.scrollY + r.height / 2 - vh * (park ?? 0.3)) / (1 - rate)))
         el.style.transform = `translate3d(0, ${(rate * at).toFixed(1)}px, 0)`
       })
       return () => {

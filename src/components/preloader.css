@@ -81,19 +81,21 @@
 .preloader__hint {
   position: absolute;
   z-index: 1;
-  left: 32px;
-  bottom: 118px;
-  font-size: 0.82rem;
-  line-height: 1.35;
+  left: 20px;
+  bottom: 143.6px; /* text top 718px of 900, arrow 30×61 below it (measured on the reference) */
+  font-size: 1rem;
+  line-height: 19.2px;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.85);
+  color: #fff;
+  opacity: 0.6;
 }
 
 .preloader__hint svg {
-  width: 22px;
-  margin: 8px 0 0 130px;
-  transform: rotate(14deg);
-  color: rgba(255, 255, 255, 0.85);
+  position: absolute;
+  left: 180.5px;
+  top: 50.1px;
+  width: 30.2px;
+  height: 61.2px;
 }
 
 /* While loading, only the Interactive Mode toggle of the nav is shown. */
@@ -108,9 +110,9 @@ html:not(.is-loaded) .appear {
   animation-play-state: paused;
 }
 
-@media (max-width: 809px) {
+@media (max-width: 999px) {
+  /* the reference has no Interactive Mode toggle below 1000px, so no hint either */
   .preloader__hint {
-    left: 20px;
-    bottom: 96px;
+    display: none;
   }
 }

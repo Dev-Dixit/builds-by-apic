@@ -312,3 +312,23 @@ p {
     line-height: 1.2;
   }
 }
+
+/* ---------- Page transition (see Stages in App.tsx) ---------- */
+
+.stage {
+  position: relative;
+  z-index: 2;
+}
+
+.stage--leaving {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+html.is-transitioning,
+html.is-transitioning body {
+  background: #fff;
+}

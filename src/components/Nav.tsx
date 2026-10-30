@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import SectionLink from './SectionLink'
 import { site } from '../content'
 import { useInteractive } from '../hooks/interactive'
+import { scrollToTop } from '../hooks/scroll'
 import { userAsset } from '../userAssets'
 import './nav.css'
 
-const links = [
+// The Works and About pages are switched off (see App.tsx): their links scroll to the matching section of the home page.
+type NavItem = { to: string; end: boolean; label: string; section?: undefined } | { section: string; label: string; to?: undefined; end?: undefined }
+const links: NavItem[] = [
   { to: '/', label: 'Home', end: true },
-  { to: '/works', label: 'Works', end: false },
-  { to: '/about-me', label: 'About me', end: false },
+  { section: 'works', label: 'Works' },
+  { section: 'about', label: 'About me' },
 ]
 
 function ModeToggle() {
@@ -47,11 +51,17 @@ export default function Nav() {
     <>
       <nav className="side-nav" aria-label="Primary">
         <div className="side-nav__glow" aria-hidden="true" />
-        {links.map((l) => (
-          <NavLink key={l.to} to={l.to} end={l.end} className="side-nav__link">
-            {l.label}
-          </NavLink>
-        ))}
+        {links.map((l) =>
+          l.section ? (
+            <SectionLink key={l.label} to={l.section} className="side-nav__link">
+              {l.label}
+            </SectionLink>
+          ) : (
+            <NavLink key={l.label} to={l.to!} end={l.end} className="side-nav__link" onClick={() => scrollToTop()}>
+              {l.label}
+            </NavLink>
+          ),
+        )}
         <a className="side-nav__link" href={site.resumeUrl} target="_blank" rel="noreferrer">
           Resume
         </a>
@@ -65,11 +75,17 @@ export default function Nav() {
           <span />
         </button>
         <div id="mobile-menu" className="mobile-nav__panel" hidden={!open}>
-          {links.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.end} className="mobile-nav__link">
-              {l.label}
-            </NavLink>
-          ))}
+          {links.map((l) =>
+            l.section ? (
+              <SectionLink key={l.label} to={l.section} className="mobile-nav__link" onClick={() => setOpen(false)}>
+                {l.label === 'About me' ? 'About Me' : l.label}
+              </SectionLink>
+            ) : (
+              <NavLink key={l.label} to={l.to!} end={l.end} className="mobile-nav__link" onClick={() => scrollToTop()}>
+                {l.label}
+              </NavLink>
+            ),
+          )}
           <a className="mobile-nav__link" href={site.resumeUrl} target="_blank" rel="noreferrer">
             Resume
           </a>

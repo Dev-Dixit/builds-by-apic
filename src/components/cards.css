@@ -500,8 +500,8 @@ a.archive__row:hover {
 
 .co__stage {
   position: absolute;
-  left: -45.4cqw;
-  top: -13.06cqw;
+  left: -47.03cqw;
+  top: -15.53cqw;
   width: 184.47cqw;
   aspect-ratio: 1271 / 655;
 }
@@ -515,6 +515,16 @@ a.archive__row:hover {
   inset: 0;
   width: 100%;
   height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.co__ring {
+  /* 1249x644 inside the 1271x655 shell, offset (14, 8) */
+  left: 1.1%;
+  top: 1.22%;
+  width: 98.27%;
+  height: 98.32%;
   max-width: none;
   pointer-events: none;
 }

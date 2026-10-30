@@ -1,10 +1,9 @@
 import { Suspense, lazy, useEffect, useRef, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import SectionLink from '../components/SectionLink'
 import { intro, journey, projects, site, statement, wisdom } from '../content'
 import { useInteractive } from '../hooks/interactive'
 import { useInView } from '../hooks/useInView'
-import { smooth, useScrollProgress } from '../hooks/useScroll'
-import { subscribeScroll } from '../hooks/scroll'
+import { useScrollProgress } from '../hooks/useScroll'
 import { ArrowUpRight } from '../components/Icons'
 import { Balloon, CloudImage, Galaxy } from '../components/Scenery'
 import Parallax, { useParallax } from '../components/Parallax'
@@ -28,34 +27,75 @@ function Pic({ k, className, fallback }: { k: string; className?: string; fallba
   return src ? <img className={`cloud-img ${className ?? ''}`} src={src} alt="" draggable={false} decoding="async" /> : <>{fallback}</>
 }
 
+/** Slides a decorative layer in (x -88px, y 20px, faded out -> in place) the first time it scrolls into view, as the reference does. */
+function useRevealOnView(ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      el?.classList.add('is-in')
+      return
+    }
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (el.classList.add('is-in'), io.disconnect()))
+    io.observe(el)
+    return () => io.disconnect()
+  }, [ref])
+}
+
+/**
+ * The reference's galaxy: a static, pre-skewed wrapper around a layer that turns continuously (measured on the live
+ * site: both columns of its 2D matrix rotate at 6 degrees per second, one turn a minute, whatever the scroll position).
+ * It fades up when it first scrolls into view and only runs while on screen.
+ */
+function GalaxyOriginal() {
+  const box = useRef<HTMLDivElement>(null)
+  const inner = useRef<HTMLDivElement>(null)
+  const { interactive } = useInteractive()
+  useEffect(() => {
+    const wrap = box.current
+    const el = inner.current
+    if (!wrap || !el) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let raf = 0
+    const pose = (t: number) => {
+      const th = ((6 * t) / 1000) * (Math.PI / 180)
+      const ph = th + (149.5 * Math.PI) / 180
+      el.style.transform = `matrix3d(${(1.128 * Math.cos(th)).toFixed(5)},${(1.128 * Math.sin(th)).toFixed(5)},0,0,${(1.743 * Math.cos(ph)).toFixed(5)},${(1.743 * Math.sin(ph)).toFixed(5)},0,0,0,0,1,-0.0002,0,0,0,1)`
+    }
+    const loop = (t: number) => {
+      pose(t)
+      raf = requestAnimationFrame(loop)
+    }
+    pose(performance.now())
+    const io = new IntersectionObserver(([e]) => {
+      cancelAnimationFrame(raf)
+      if (e.isIntersecting) {
+        wrap.classList.add('is-in')
+        if (!reduce && interactive) raf = requestAnimationFrame(loop)
+      }
+    })
+    io.observe(wrap)
+    return () => {
+      io.disconnect()
+      cancelAnimationFrame(raf)
+    }
+  }, [interactive])
+  return (
+    <div ref={box} className="galaxy__a">
+      <div ref={inner} className="galaxy__b">
+        <img className="galaxy__img" src={userAsset('galaxy')} alt="" draggable={false} decoding="async" />
+      </div>
+    </div>
+  )
+}
+
 function Decor() {
+  const cloud2 = useRef<HTMLDivElement>(null)
   const books = useRef<HTMLDivElement>(null)
   const galaxy = useRef<HTMLDivElement>(null)
   const { interactive } = useInteractive()
-
-  // The mirrored cloud fades 0 → 0.9 and slides 88px in x between scroll 5600 and 6400 (measured on the reference).
-  useEffect(() => {
-    const el = books.current
-    if (!el || !interactive) return
-    let start = 5600
-    let layout = -1
-    const unsub = subscribeScroll(({ y, layout: l }) => {
-      if (l !== layout) {
-        layout = l
-        // 1490px below the top of the Wisdom block on the reference (5600 when that block starts at 4110)
-        const w = document.querySelector('.wisdom')
-        if (w) start = w.getBoundingClientRect().top + y + 1490
-      }
-      const t = smooth(start, start + 800, y)
-      el.style.opacity = (t * 0.9).toFixed(3)
-      el.style.translate = `${(-88 * (1 - t)).toFixed(1)}px 0`
-    })
-    return () => {
-      unsub()
-      el.style.opacity = ''
-      el.style.translate = ''
-    }
-  }, [interactive])
+  const wide = useMinWidth(1000) // the compact layout scrolls the galaxy and the lower cloud bank at 0.2
+  useRevealOnView(cloud2)
+  useRevealOnView(books)
   // The galaxy turns in 3D while it drifts down the page.
   useScrollProgress(galaxy, (p, el) => el.style.setProperty('--spin', p.toFixed(4)), 'through', interactive)
 
@@ -63,10 +103,10 @@ function Decor() {
     <div className="decor" aria-hidden="true">
       <div className="decor__hero">
         <div className="decor__hero-glow">{userAsset('hero-glow') && <img className="cloud-img" src={userAsset('hero-glow')} alt="" />}</div>
-        <Parallax rate={0.21} anchor="page" className="decor__hero-cloud decor__hero-cloud--l">
+        <Parallax rate={0.2} anchor="page" className="decor__hero-cloud decor__hero-cloud--l">
           <Pic k="hero-cloud" fallback={<CloudImage kind="bank-wide" eager />} />
         </Parallax>
-        <Parallax rate={0.21} anchor="page" className="decor__hero-cloud decor__hero-cloud--r">
+        <Parallax rate={0.2} anchor="page" className="decor__hero-cloud decor__hero-cloud--r">
           <Pic k="hero-cloud" fallback={<CloudImage kind="puff" eager />} />
         </Parallax>
         <Parallax rate={-0.5} anchor="page" className="decor__mist">
@@ -79,22 +119,28 @@ function Decor() {
         </Parallax>
       </div>
       <div className="decor__hero-glow decor__works-glow">{userAsset('hero-glow') && <img className="cloud-img" src={userAsset('hero-glow')} alt="" />}</div>
-      <Parallax rate={0.41} anchor="page" className="decor__cloud2">
-        <Pic k="cloud-2" fallback={<CloudImage kind="bank-wide" />} />
+      <Parallax rate={0.4} anchor="page" className="decor__cloud2">
+        <div ref={cloud2} className="decor__reveal">
+          <Pic k="cloud-2" fallback={<CloudImage kind="bank-wide" />} />
+        </div>
       </Parallax>
       <Parallax rate={0.3} anchor="page" className="decor__balloon">
         <Pic k="balloon" className="decor__balloon-img" fallback={<Balloon />} />
       </Parallax>
-      <Parallax rate={0.5} anchor="page" park={0.48} className="decor__galaxy">
-        <div ref={galaxy}>
-          <Pic k="galaxy" className="decor__galaxy-img" fallback={<Galaxy />} />
-        </div>
+      <Parallax rate={wide ? 0.5 : 0.2} anchor="page" park={0.48} className="decor__galaxy">
+        {userAsset('galaxy') ? (
+          <GalaxyOriginal />
+        ) : (
+          <div ref={galaxy}>
+            <Pic k="galaxy" className="decor__galaxy-img" fallback={<Galaxy />} />
+          </div>
+        )}
       </Parallax>
-      <Parallax rate={0.31} anchor="page" className="decor__cloud3">
+      <Parallax rate={wide ? 0.3 : 0.2} anchor="page" className="decor__cloud3">
         <Pic k="cloud-3" className="decor__cloud3-img" fallback={<CloudImage kind="floor" />} />
       </Parallax>
-      <Parallax rate={0.41} anchor="page" className="decor__cloud2b">
-        <div ref={books} className="decor__cloud2b-inner">
+      <Parallax rate={0.4} anchor="page" className="decor__cloud2b">
+        <div ref={books} className="decor__cloud2b-inner decor__reveal">
           <Pic k="cloud-2" fallback={<CloudImage kind="bank-tall" />} />
         </div>
       </Parallax>
@@ -189,12 +235,12 @@ function SectionText({ heading, children, tone = 'white', className = '' }: { he
 function Who() {
   const [ref, inView] = useInView<HTMLDivElement>('0px 0px -15% 0px')
   return (
-    <section className="who container" aria-label="About me">
+    <section id="about" className="who container" aria-label="About me">
       <SectionText heading={[intro.heading]} className="who__text">
         <p className="body-copy">{intro.body}</p>
-        <Link to="/about-me" className="arrow-link">
+        <SectionLink to="about" className="arrow-link">
           Know more about me <ArrowUpRight />
-        </Link>
+        </SectionLink>
       </SectionText>
       <div ref={ref} className={`who__collage ${inView ? 'is-in' : ''}`}>
         {intro.photos.map((p, i) => (
@@ -238,7 +284,7 @@ function Statement() {
   const tokens = statement.text.split(' ')
   // The headline drifts up at -0.1 × scrollY on the reference (-150px at 1500, -210px at 2100).
   const drift = useRef<HTMLDivElement>(null)
-  useParallax(drift, -0.1, 'page', 810, 0.62)
+  useParallax(drift, -0.1, 'page', 0, 0.62)
 
   return (
     <section className="statement" aria-label="Experience in brief">
@@ -262,15 +308,15 @@ function Statement() {
 
 function Work() {
   return (
-    <section className="work container" aria-label="Selected work">
+    <section id="works" className="work container" aria-label="Selected work">
       <SectionText heading={['Stuff I’ve', 'worked on']}>
         <p className="body-copy">
           I’ve worked on end-to-end product design for web and mobile applications, spanning user research, interaction design, prototyping, and UI
           execution. My projects cover consumer apps, productivity tools, and learning platforms.
         </p>
-        <Link to="/works" className="arrow-link">
+        <SectionLink to="works" className="arrow-link">
           View more projects <ArrowUpRight />
-        </Link>
+        </SectionLink>
       </SectionText>
       <div className="work__cards">
         {projects.slice(0, 3).map((p, i) => (
@@ -297,23 +343,20 @@ function Wisdom() {
 }
 
 function Journey() {
-  const ref = useRef<HTMLElement>(null)
-  const { interactive } = useInteractive()
-  useScrollProgress(ref, (p, el) => el.style.setProperty('--progress', p.toFixed(4)), 'pin', interactive)
-
   return (
-    <section ref={ref} className="journey container" aria-label="Experience">
+    <section className="journey container" aria-label="Experience">
       <div className="journey__head">
         <SectionText heading={['Journey', 'so far']} tone="ink" />
       </div>
-      <div className="journey__line" aria-hidden="true">
-        <span className="journey__fill" />
-      </div>
       <ol className="journey__list">
-        {journey.map((j) => (
+        {journey.map((j, n) => (
           <li key={j.org} className="journey__item">
+            {/* the reference draws the timeline as one 4px segment per entry, with a glowing node at its middle */}
+            <span className={`journey__seg ${n === 0 ? 'is-first' : n === journey.length - 1 ? 'is-last' : ''}`} aria-hidden="true">
+              <i className="journey__node" />
+              <i className="journey__core" />
+            </span>
             <div className="journey__sticky">
-              <span className="journey__dot" aria-hidden="true" />
               <p className="journey__dates">{j.dates}</p>
               <div className="journey__row">
                 <span className="journey__logo" style={{ background: j.tile, color: j.ink }} aria-hidden="true">
