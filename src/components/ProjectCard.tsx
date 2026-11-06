@@ -42,7 +42,7 @@ export default function ProjectCard({ project, index = 0 }: { project: Project; 
       </span>
       <span className="console__lcd">
         <span className="console__logo" style={{ background: project.accent, color: project.accent === '#ffffff' ? '#111' : '#fff' }}>
-          {project.logo}
+          {project.logoImg ? <img src={project.logoImg} alt="" style={{ width: '70%' }} /> : project.logo}
         </span>
         <span className="console__lcd-text">
           <LcdText text={project.lcd} highlight={project.highlight} />
@@ -85,14 +85,28 @@ function ConsoleOriginal({ project }: { project: Project }) {
   return (
     <span className="co">
       <span className="co__stage">
-        <span className="co__screen">{c.lottie && LottieScreen ? (
+        <span className="co__screen">
+          {project.screen ? (
+            <img className="co__shot" src={project.screen} alt="" loading="lazy" />
+          ) : c.lottie && LottieScreen ? (
             <Suspense fallback={null}>
               <LottieScreen src={c.lottie} />
             </Suspense>
           ) : (
             <Mockup kind={project.mockup} />
-          )}</span>
-        <img className="co__led" src={c.led} alt="" loading="lazy" />
+          )}
+        </span>
+        {c.led ? (
+          <img className="co__led" src={c.led} alt="" loading="lazy" />
+        ) : (
+          // no baked LCD image: draw the panel (dark dot-matrix, logo, three lines of title)
+          <span className="co__led co__lcd">
+            <span className="co__lcd-logo">{project.logoImg ? <img src={project.logoImg} alt="" /> : project.logo}</span>
+            <span className="co__lcd-text">
+              <LcdText text={project.lcd} highlight={project.highlight} />
+            </span>
+          </span>
+        )}
         {orangeGlow && <img className="co__base" src={orangeGlow} alt="" loading="lazy" />}
         {orangeBase && <img className="co__base" src={orangeBase} alt="" loading="lazy" />}
         <img className="co__base" src={base} alt="" loading="lazy" />

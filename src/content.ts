@@ -6,22 +6,23 @@ import type { ArtKind } from './components/PlaceholderArt'
 import type { MockupKind } from './components/Mockup'
 import { userAsset } from './userAssets'
 
+// Study mode only: the reference's console renders. Without a baked LCD image (`led-<slug>`) the LCD is drawn from the project's text.
 function consoleFor(slug: string, hover: 'purple' | 'orange' | 'white') {
-  const led = userAsset(`led-${slug}`)
-  return led && userAsset('console-base-white') ? { led, lottie: userAsset(`lottie-${slug}`), hover } : undefined
+  return userAsset('console-base-white') ? { led: userAsset(`led-${slug}`), hover } : undefined
 }
 
 export const site = {
-  name: 'Jayesh',
-  fullName: 'Jayesh Goswami',
-  tagline: ['A Product Designer & Developer who builds products,', 'with a problem solving and creative mindset.'],
-  email: 'hello@example.com',
-  resumeUrl: '#resume',
+  name: 'Aman',
+  fullName: 'Aman Dixit',
+  tagline: ['A Full-Stack Developer who builds products,', 'with a problem solving and engineering mindset.'],
+  email: 'amandixit5102002@gmail.com',
+  phone: '+91-8770923503',
+  resumeUrl: '/Aman-Dixit-Full-Stack-Developer.pdf',
   footerNote: 'Made with love, late at night',
-  marquee: ['Product', 'UI/UX', 'Illustrations', 'Graphics', '3D', 'Vibe Coding'],
+  marquee: ['Full-Stack', 'React', 'Node.js', 'Real-time', 'AWS', 'TypeScript'],
   socials: [
     { label: 'Instagram', href: 'https://instagram.com/', icon: 'instagram' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/', icon: 'linkedin' },
+    { label: 'LinkedIn', href: 'http://www.linkedin.com/in/aman-dixit-fsd', icon: 'linkedin' },
     { label: 'Medium', href: 'https://medium.com/', icon: 'medium' },
   ] as const,
 }
@@ -29,7 +30,7 @@ export const site = {
 export const intro = {
   heading: 'Who am I?',
   body:
-    'Hey, I’m Jayesh — an engineer who turned into a designer. I work across product and visual design and front-end development, and have had the opportunity to design for startups, studios and consumer brands.',
+    'Hey, I’m Aman Dixit, a full-stack developer proficient in React.js, Node.js, Angular.js, TypeScript and JavaScript. I craft user-centric applications, enhance performance and deliver scalable, innovative solutions.',
   photos: [
     // Final rotations as on the reference collage
     { caption: 'Me', art: 'portrait' as ArtKind, rot: 0, src: userAsset('photo-me') },
@@ -41,12 +42,12 @@ export const intro = {
 
 // The statement paragraph; `{chip:n}` tokens render brand chips from `chips`.
 export const statement = {
-  text: 'From designing at {chip:0} to building for {br} {chip:1} and {chip:2} I’ve tasted both fast-moving {br} consumer platforms and design-driven product {br} ecosystems.',
+  text: 'From building at {chip:0} to shipping for {br} {chip:1} and {chip:2} I’ve worked across {br} streaming, gaming and payments platforms, {br} from real-time backends to polished web apps.',
   chips: [
-    { label: 'northwind', sub: 'Studio', style: 'script' },
-    { label: 'Acme', style: 'badge', img: userAsset('chip-swiggy'), h: 44 },
-    { label: 'brightside', style: 'plain', img: userAsset('chip-doctor-towels'), h: 26 },
-  ] as const,
+    { label: 'Carina', sub: 'Softlabs', style: 'script' },
+    { label: 'POPIL', style: 'badge' },
+    { label: 'Warvox', style: 'plain' },
+  ] as { label: string; sub?: string; style: 'script' | 'badge' | 'plain'; img?: string; h?: number }[],
 }
 
 export type Project = {
@@ -56,11 +57,13 @@ export type Project = {
   highlight?: string
   accent: string
   logo: string
+  /** Logo drawn in the LCD instead of the `logo` glyph. */
+  logoImg?: string
   mockup: MockupKind
   /** Real screenshot (src/assets/user/project-<slug>.*); falls back to `mockup`. */
   screen?: string
   /** Study mode: original console layers (src/study/original.ts). `hover` is the colour it lights up in. */
-  console?: { led: string; lottie?: string; hover: 'purple' | 'orange' | 'white' }
+  console?: { led?: string; lottie?: string; hover: 'purple' | 'orange' | 'white' }
   date: string
   client: string
   work: string
@@ -73,129 +76,115 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: 'checkout-revamp',
-    screen: userAsset('project-checkout-revamp'),
-    console: consoleFor('checkout-revamp', 'purple'),
-    title: 'Improving a D2C brand’s checkout conversion',
-    lcd: 'Improving a D2C Brand’s Checkout Conversion',
+    slug: 'warvox',
+    external: 'https://playwarvox-staging.vercel.app/en',
+    screen: userAsset('project-warvox'),
+    console: consoleFor('warvox', 'purple'),
+    title: 'Warvox: a game publisher platform, localized into 10 languages',
+    lcd: 'Warvox: a Game Publisher Platform in 11 Languages',
     accent: '#ffffff',
-    logo: '◎',
-    mockup: 'hand-phone',
-    date: 'Feb 1, 2026',
-    client: 'Lumen Goods',
-    work: 'Product Design',
-    period: 'Jan – Feb 2026',
+    logo: 'W',
+    mockup: 'screens',
+    date: 'Jun 2024 – Present',
+    client: 'Carina Softlabs Inc.',
+    work: 'Full-Stack Development',
+    period: '2024 – Present',
     summary:
-      'Lumen Goods is a direct-to-consumer homeware brand. The goal was to make the path from product page to payment shorter, clearer and more trustworthy on mobile.',
-    tags: ['Product Design', 'E-commerce'],
+      'A 137K-line game publisher platform: a moderated community forum, Stripe commerce that delivers items into the game, entitlement-gated media and a CMS in 11 locales.',
+    tags: ['Next.js', 'Node.js', 'AWS'],
     sections: [
       {
-        heading: 'Introduction',
+        heading: 'Translating a game platform into 10 languages',
         body: [
-          'Most visitors arrived on mobile from social ads, browsed one or two products and dropped off at the cart. I worked with the founders and one engineer to find out why.',
+          'Content is translated field by field: a content hash decides which fields changed, a rate-limited queue worker batches the work, AWS Translate does the bulk and AWS Bedrock (Claude) validates game terminology.',
         ],
-        figure: 'flow',
-      },
-      {
-        heading: 'Approach',
-        body: [
-          'Session recordings, a short survey and five customer interviews pointed to three issues: surprise shipping costs, a long address form and weak trust signals near the pay button.',
-          'We moved shipping estimates onto the product page, collapsed the form into a single smart address field and added delivery dates and returns information beside the CTA.',
-        ],
-        figure: 'phones',
       },
     ],
   },
   {
-    slug: 'field-sales-app',
-    screen: userAsset('project-field-sales-app'),
-    console: consoleFor('field-sales-app', 'orange'),
-    title: 'Improving the workflow of a field sales team: a case study',
-    lcd: 'Improving the Workflow of the {Field Sales} Team: A Case Study',
+    slug: 'popil',
+    screen: userAsset('project-popil'),
+    console: consoleFor('popil', 'orange'),
+    title: 'POPIL: movies, series and music with three revenue models',
+    lcd: 'POPIL: Streaming with 3 Revenue Models',
     highlight: '#ff8a3d',
     accent: '#ff6a1a',
-    logo: '⚑',
+    logo: 'P',
+    logoImg: userAsset('logo-popil'),
     mockup: 'screens',
-    date: 'Aug 1, 2025',
-    client: 'Acme Foods',
-    work: 'Product Design',
-    period: 'Jul – Aug 2025',
+    date: 'Jun 2024 – Present',
+    client: 'Carina Softlabs Inc.',
+    work: 'Full-Stack Development',
+    period: '2024 – Present',
     summary:
-      'Acme Foods runs a restaurant partnerships programme. Its account managers juggled spreadsheets, chats and three internal tools to track their partners every day.',
-    tags: ['Product Design', 'Internship'],
+      'A 114K-line OTT and music streaming platform: subscriptions, per-title rentals and production-house payouts over one catalog, with webhook-driven Razorpay reconciliation and a LightFM recommender.',
+    tags: ['Angular', 'Next.js', 'Razorpay'],
     sections: [
       {
-        heading: 'Introduction',
+        heading: 'Three ways to make money from one catalog',
         body: [
-          'As a product design intern I was asked to look at how account managers plan their day, follow up with partners and report performance to city leads.',
+          'Entitlement resolves subscription tier, active rental, free flag and geo licence before a media URL is issued; payments are driven by Razorpay webhooks and payouts land in an auditable ledger.',
         ],
-        figure: 'org',
-      },
-      {
-        heading: 'The solution',
-        body: [
-          'A single mobile app that brings partner health, tasks and performance into one place, with a daily plan generated from the most urgent follow-ups.',
-        ],
-        figure: 'phones',
       },
     ],
   },
   {
-    slug: 'admin-panel',
-    screen: userAsset('project-admin-panel'),
-    console: consoleFor('admin-panel', 'white'),
-    title: 'Improving the admin panel experience of a study portal',
-    lcd: 'Improving the Admin Panel User Experience of {Study Hub}: A Case Study',
+    slug: 'mpl',
+    external: 'https://play.google.com/store/apps/details?id=com.TechyMauGameStudios.Mpl&pcampaignid=web_share',
+    screen: userAsset('project-mpl'),
+    console: consoleFor('mpl', 'white'),
+    title: 'MPL: the real-time backend of a multiplayer cricket game',
+    lcd: 'MPL: a Real-Time Multiplayer Cricket Backend',
     highlight: '#7aa8ff',
     accent: '#ff5a5a',
-    logo: 'S',
-    mockup: 'table',
-    date: 'Aug 1, 2023',
-    client: 'Study Hub',
-    work: 'UX Design',
-    period: 'Jun – Aug 2023',
+    logo: 'M',
+    mockup: 'screens',
+    date: 'Jun 2024 – Present',
+    client: 'Carina Softlabs Inc.',
+    work: 'Backend Architecture',
+    period: '2024 – Present',
     summary:
-      'Study Hub is a student-run portal for sharing course material. Moderators were spending hours every week approving and organising uploads.',
-    tags: ['UX Design', 'Student Club'],
+      'Socket.IO match engines, matchmaking, tournament brackets with playoff tie-breaking and Redis leaderboards, built against a 974-line socket contract that a separate Unity team integrated with.',
+    tags: ['Socket.IO', 'Redis', 'Docker'],
     sections: [
       {
-        heading: 'Introduction',
+        heading: 'A socket contract two teams could build against',
         body: [
-          'I mapped the moderation workflow end to end and redesigned the upload queue around bulk actions, smart filters and clear statuses.',
+          'The contract came before the engine: every event, payload and failure path was specified first, so integration with the Unity client was verification, not negotiation.',
         ],
-        figure: 'table',
       },
     ],
   },
   {
-    slug: 'meal-planner',
-    screen: userAsset('project-meal-planner'),
-    title: 'Meals: smart meal planning meets instant grocery',
-    lcd: '{Meals}: Smart Meal Planning Meets Instant Grocery',
-    highlight: '#ffb020',
-    accent: '#5b4bf5',
-    logo: 'M',
-    mockup: 'grocery',
-    date: 'Apr 1, 2025',
-    client: 'Concept',
-    work: 'Product Design',
-    period: 'Mar – Apr 2025',
-    summary: 'A concept that turns a weekly meal plan into a one-tap grocery order.',
-    tags: ['Concept', 'Mobile'],
+    slug: 'rolegate',
+    external: 'https://www.npmjs.com/package/@rolegate/express',
+    screen: userAsset('project-rolegate'),
+    console: consoleFor('rolegate', 'purple'),
+    title: 'Rolegate: a type-safe authorization library on npm',
+    lcd: 'Rolegate: Type-Safe RBAC on {npm}',
+    highlight: '#c792ea',
+    accent: '#ffffff',
+    logo: 'R',
+    mockup: 'screens',
+    date: 'Open source',
+    client: 'Open source',
+    work: 'Library design',
+    period: 'MIT licensed',
+    summary:
+      'An open-source, type-safe RBAC library published on npm as a dual-package pnpm monorepo (@rolegate/core, @rolegate/express), with 95% coverage thresholds and an automated release pipeline.',
+    tags: ['TypeScript', 'npm', 'RBAC'],
     sections: [
       {
-        heading: 'Introduction',
-        body: ['Planning meals and ordering groceries are usually two separate chores. Meals joins them into a single flow.'],
-        figure: 'phones',
+        heading: 'Invalid permissions fail at compile time',
+        body: [
+          'TypeScript const generics infer permission and role unions from config, and a discriminated AuthorizationDecision returns typed denial reasons instead of a boolean.',
+        ],
       },
     ],
   },
 ]
 
-export const archive = [
-  { title: 'Redesigning the user interface of a blog website', tags: ['UI Redesign', 'Freelance'], mockup: 'laptop-warm' as MockupKind },
-  { title: 'Redesigning a project tracker to enhance UX', tags: ['UI Redesign', 'Assignment'], mockup: 'laptop-cool' as MockupKind },
-]
+export const archive: { title: string; tags: string[]; mockup: MockupKind }[] = []
 
 export const books = [
   // spine colours, title colours and titles as measured on the reference
@@ -214,11 +203,39 @@ export const wisdom = {
 }
 
 export const journey = [
-  { dates: 'Apr 2022 – May 2026', role: 'Designer', org: 'Pixel Club', logoSrc: userAsset('logo-pixel-club'), text: 'Where I learned the basics of design, product thinking and UI/UX fundamentals.', logo: 'P', tile: '#ffffff', ink: '#111' },
-  { dates: 'May – Jun 2025', role: 'UX Design Intern', org: 'northwind', logoSrc: userAsset('logo-northwind'), text: 'Hands-on real industry projects, mentored by senior design leaders.', logo: 'n', tile: '#5b4bf5', ink: '#fff' },
-  { dates: 'Jun – Aug 2025', role: 'Product Design Intern', org: 'Acme', logoSrc: userAsset('logo-acme'), text: 'Learnt product thinking from some of the best product people around.', logo: 'A', tile: '#ff6a1a', ink: '#fff' },
-  { dates: 'Feb 2026 – Present', role: 'Design Lead', org: 'Brightside', logoSrc: userAsset('logo-brightside'), text: 'Designing and shipping to live for thousands of customers.', logo: '◎', tile: '#ffffff', ink: '#111' },
-]
+  { dates: 'Aug – Nov 2023', role: 'MERN Stack Trainee', org: 'Dollop', text: 'Dollop Infotech Pvt. Ltd.: algorithmic problem-solving and optimized data structures in C and C++, and responsive, accessible ReactJS interfaces.', logoSrc: userAsset('logo-dollop'), mark: true, logo: 'D', tile: '#ffffff', ink: '#111' },
+  { dates: 'Dec 2023 – May 2024', role: 'Full-Stack Developer Intern', org: 'DevBazaar', text: 'Developer Bazaar Technologies: ReactJS with PHP, Tailwind CSS and Bootstrap, plus Ethereum token-conversion and transaction workflows with MetaMask, Suiet and Phantom.', logoSrc: userAsset('logo-devbazaar'), mark: true, logo: 'D', tile: '#ffffff', ink: '#111' },
+  { dates: 'Jun 2024 – Present', role: 'Full-Stack Developer', org: 'Carina', text: 'Carina Softlabs Inc.: a 114K-line streaming platform with three revenue models, a real-time multiplayer game backend and a 137K-line game publisher platform.', logoSrc: userAsset('logo-carina'), mark: true, logo: 'C', tile: '#ffffff', ink: '#111' },
+] as { dates: string; role: string; org: string; text: string; logo: string; tile: string; ink: string; logoSrc?: string; mark?: boolean }[]
+
+/** Everything else on the resume: summary, skills and the open-source project. */
+export const resume = {
+  summary:
+    'Experienced Full Stack Developer proficient in React.js, Node.js, Angular.js, TypeScript, and JavaScript. Excels in crafting user-centric applications, enhancing performance, and delivering scalable, innovative solutions. Passionate about building intuitive and efficient web experiences.',
+  skills: [
+    { label: 'Languages', items: ['HTML5', 'CSS', 'SCSS', 'JavaScript (ES6+)', 'TypeScript'] },
+    {
+      label: 'Frameworks',
+      items: ['React.js', 'Node.js', 'Angular.js', 'Express.js', 'Next.js', 'Redux', 'Tailwind CSS', 'Bootstrap', 'Material UI', 'Shadcn UI', 'GSAP', 'Framer Motion', 'Three.js', 'Socket.IO', 'TanStack Query'],
+    },
+    { label: 'Databases', items: ['MongoDB', 'PostgreSQL', 'Redis'] },
+    { label: 'Developer tools', items: ['Git', 'Postman', 'VS Code', 'BitBucket', 'Webpack', 'RESTful APIs', 'Chrome DevTools'] },
+    { label: 'Cloud & payments', items: ['AWS (EC2, S3, IAM, MediaConvert, Bedrock)', 'Docker', 'Stripe', 'Razorpay', 'Hostinger'] },
+  ],
+  project: {
+    title: 'Rolegate',
+    subtitle: 'Type-Safe Authorization Library (npm)',
+    href: 'https://www.npmjs.com/package/@rolegate/express',
+    summary:
+      'Published an open-source, type-safe RBAC library as a dual-package pnpm monorepo (@rolegate/core, @rolegate/express), distributed on npm under the MIT license.',
+    points: [
+      'Leveraged TypeScript const generics to infer permission and role unions directly from config, turning invalid permission strings into compile-time errors instead of silent runtime denials.',
+      'Designed a discriminated AuthorizationDecision type that returns typed denial reasons instead of a boolean, and implemented role inheritance, wildcard grants, and sync/async role resolution.',
+      'Enforced 95% coverage thresholds with 100% branch coverage on the core engine, including type-level tests and a packaging smoke test that validates the published tarball actually installs.',
+      'Automated the release pipeline with Changesets and GitHub Actions across three CI workflows, shipping dual ESM/CJS builds with Express 4 and 5 middleware support.',
+    ],
+  },
+}
 
 export const worksPage = {
   heading: 'Turning Ambiguity into Clarity',
@@ -243,7 +260,7 @@ export const worksPage = {
 
 export const aboutPage = {
   intro: [
-    { t: 'Hey, I’m Jayesh, an engineer who turned into a ' },
+    { t: 'Hey, I’m Aman, an engineer who turned into a ' },
     { t: 'product and visual designer', b: true },
     { t: '. I work across design and front-end, with ' },
     { t: 'a few years of hands-on experience', b: true },

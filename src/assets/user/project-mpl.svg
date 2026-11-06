@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" font-family="Montserrat, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c1a3a"/>
+      <stop offset="1" stop-color="#1d3f8f"/>
+    </linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#9fd0ff"/>
+    </marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#ffd166"/>
+    </marker>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <g opacity=".08" stroke="#fff">
+    <path d="M0 100H600M0 200H600M0 300H600M0 400H600M0 500H600M100 0V600M200 0V600M300 0V600M400 0V600M500 0V600"/>
+  </g>
+  <!-- lanes -->
+  <g fill="#ffffff" fill-opacity=".1" stroke="#9fd0ff" stroke-opacity=".5">
+    <rect x="40" y="48" width="140" height="44" rx="12"/>
+    <rect x="230" y="48" width="140" height="44" rx="12"/>
+    <rect x="420" y="48" width="140" height="44" rx="12"/>
+  </g>
+  <g fill="#fff" font-size="18" font-weight="700" text-anchor="middle">
+    <text x="110" y="76">Unity client</text>
+    <text x="300" y="76">Socket.IO</text>
+    <text x="490" y="76">Match engine</text>
+  </g>
+  <g stroke="#9fd0ff" stroke-opacity=".45" stroke-dasharray="6 7" stroke-width="2">
+    <path d="M110 96V560M300 96V560M490 96V560"/>
+  </g>
+  <!-- events -->
+  <g fill="none" stroke-width="2.4">
+    <path d="M110 150H292" stroke="#9fd0ff" marker-end="url(#a)"/>
+    <path d="M308 190H482" stroke="#9fd0ff" marker-end="url(#a)"/>
+    <path d="M482 240H308" stroke="#ffd166" marker-end="url(#b)"/>
+    <path d="M292 280H118" stroke="#ffd166" marker-end="url(#b)"/>
+    <path d="M110 340H292" stroke="#9fd0ff" marker-end="url(#a)"/>
+    <path d="M308 380H482" stroke="#9fd0ff" marker-end="url(#a)"/>
+    <path d="M482 430H118" stroke="#ffd166" marker-end="url(#b)"/>
+    <path d="M110 500H292" stroke="#ff8a8a" stroke-dasharray="7 6" marker-end="url(#a)"/>
+    <path d="M292 540H118" stroke="#ffd166" marker-end="url(#b)"/>
+  </g>
+  <g fill="#fff" font-size="17" font-weight="700" text-anchor="middle">
+    <text x="201" y="141">match:join</text>
+    <text x="395" y="181">validate + queue</text>
+    <text x="395" y="231">match:state</text>
+    <text x="205" y="271">match:start</text>
+    <text x="201" y="331">ball:delivery</text>
+    <text x="395" y="371">integrity check</text>
+    <text x="300" y="421">ball:result (authoritative)</text>
+    <text x="201" y="491" fill="#ffb3b3">disconnect</text>
+    <text x="205" y="531">full-sync on rejoin</text>
+  </g>
+  <text x="40" y="584" fill="#9fd0ff" fill-opacity=".8" font-size="15" font-weight="700">974-line client-server socket contract</text>
+</svg>

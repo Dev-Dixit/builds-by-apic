@@ -577,3 +577,62 @@ a.archive__row:hover {
 .console-wrap--orig .console:hover {
   transform: none;
 }
+
+/* ---------- Drawn LCD panel (projects without a baked LCD render) ----------
+ * Sized in stage units: 1 unit = 1px of the reference's 1271px-wide console render. The LCD box is 235×217.
+ */
+.co__shot {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  display: block;
+}
+
+.co__lcd {
+  --u: calc(184.47cqw / 1271);
+  overflow: hidden;
+  background: #1b1b1c;
+  color: #f4f4f4;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
+  font-weight: 700;
+  text-shadow: 0 0 calc(var(--u) * 3) rgba(255, 255, 255, 0.55);
+}
+
+/* the LED dot grid: a dark layer with a round hole per dot, over the glyphs */
+.co__lcd::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0 34%, rgba(14, 14, 15, 0.62) 48%) 0 0 / calc(var(--u) * 2.4) calc(var(--u) * 2.4);
+  pointer-events: none;
+}
+
+.co__lcd-logo {
+  position: absolute;
+  left: calc(var(--u) * 24);
+  top: calc(var(--u) * 26);
+  width: calc(var(--u) * 64);
+  height: calc(var(--u) * 64);
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--u) * 62);
+  line-height: 1;
+}
+
+.co__lcd-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
+.co__lcd-text {
+  position: absolute;
+  left: calc(var(--u) * 24);
+  right: calc(var(--u) * 12);
+  top: calc(var(--u) * 112);
+  font-size: calc(var(--u) * 18.5);
+  line-height: calc(var(--u) * 23);
+  letter-spacing: -0.02em;
+}

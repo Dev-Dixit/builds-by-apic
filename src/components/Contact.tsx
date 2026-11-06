@@ -225,6 +225,9 @@ export default function Contact() {
         <p className="contact__email">
           <span>{site.email}</span>
         </p>
+        <a className="contact__phone" href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>
+          {site.phone}
+        </a>
         <a className="arrow-link contact__resume" href={site.resumeUrl} target="_blank" rel="noreferrer">
           View my Resume <ArrowUpRight />
         </a>

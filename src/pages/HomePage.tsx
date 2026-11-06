@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react'
 import SectionLink from '../components/SectionLink'
-import { intro, journey, projects, site, statement, wisdom } from '../content'
+import { intro, journey, projects, resume, site, statement, wisdom } from '../content'
 import { useInteractive } from '../hooks/interactive'
 import { useInView } from '../hooks/useInView'
 import { useScrollProgress } from '../hooks/useScroll'
@@ -13,6 +13,7 @@ import Polaroid from '../components/Polaroid'
 import ProjectCard from '../components/ProjectCard'
 import Books from '../components/Books'
 import Contact from '../components/Contact'
+import TechCloud from '../components/TechCloud'
 import { userAsset } from '../userAssets'
 import './home.css'
 
@@ -262,11 +263,11 @@ function Who() {
 function Chip({ i }: { i: number }) {
   const c = statement.chips[i]
   // the reference draws the two wordmarks as images (study mode supplies them)
-  if ('img' in c && c.img) return <img className="chip__img" src={c.img} alt={c.label} style={{ height: c.h }} />
+  if (c.img) return <img className="chip__img" src={c.img} alt={c.label} style={{ height: c.h }} />
   if (c.style === 'script')
     return (
       <span className="chip chip--script">
-        {c.label} {'sub' in c && <small>{c.sub}</small>}
+        {c.label} {c.sub && <small>{c.sub}</small>}
       </span>
     )
   if (c.style === 'badge')
@@ -311,15 +312,15 @@ function Work() {
     <section id="works" className="work container" aria-label="Selected work">
       <SectionText heading={['Stuff I’ve', 'worked on']}>
         <p className="body-copy">
-          I’ve worked on end-to-end product design for web and mobile applications, spanning user research, interaction design, prototyping, and UI
-          execution. My projects cover consumer apps, productivity tools, and learning platforms.
+          I’ve built end-to-end platforms and real-time backends, spanning streaming and monetization, multiplayer game servers and AI-assisted
+          localization, plus an open-source authorization library on npm. My work covers React and Next.js frontends, Node.js services, MongoDB, Redis and AWS.
         </p>
         <SectionLink to="works" className="arrow-link">
           View more projects <ArrowUpRight />
         </SectionLink>
       </SectionText>
       <div className="work__cards">
-        {projects.slice(0, 3).map((p, i) => (
+        {projects.slice(0, 4).map((p, i) => (
           <ProjectCard key={p.slug} project={p} index={i} />
         ))}
       </div>
@@ -359,7 +360,7 @@ function Journey() {
             <div className="journey__sticky">
               <p className="journey__dates">{j.dates}</p>
               <div className="journey__row">
-                <span className="journey__logo" style={{ background: j.tile, color: j.ink }} aria-hidden="true">
+                <span className={`journey__logo ${j.mark ? 'journey__logo--mark' : ''}`} style={{ background: j.tile, color: j.ink }} aria-hidden="true">
                   {j.logoSrc ? <img src={j.logoSrc} alt="" loading="lazy" /> : j.logo}
                 </span>
                 <div>
@@ -384,6 +385,19 @@ function Journey() {
   )
 }
 
+function Skills() {
+  return (
+    <section className="skills container" aria-label="Skills and open source">
+      <div className="skills__block">
+        <SectionText heading={['Skills', '& tools']} tone="ink">
+          <p className="body-copy skills__lead">{resume.summary}</p>
+        </SectionText>
+        <TechCloud />
+      </div>
+    </section>
+  )
+}
+
 export default function HomePage() {
   return (
     <main className="page page--home">
@@ -394,6 +408,7 @@ export default function HomePage() {
       <Work />
       <Wisdom />
       <Journey />
+      <Skills />
       <Contact />
     </main>
   )

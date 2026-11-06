@@ -1257,6 +1257,9 @@
   .work__cards > :nth-child(3) {
     order: 2;
   }
+  .work__cards > :nth-child(4) {
+    order: 4;
+  }
 
   .wisdom {
     padding: 389px 0 234px;
@@ -1320,4 +1323,99 @@
     font-size: 0.8rem;
     line-height: 21.76px;
   }
+}
+
+/* ---------- Skills and open source (resume content, below the Journey) ---------- */
+
+.skills {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  padding: 260px 0 120px; /* room after the Journey, whose last entry pins to the bottom of its list */
+  color: #000;
+}
+
+.skills__block {
+  display: grid;
+  grid-template-columns: 345px 1fr;
+  gap: 68px;
+  align-items: start;
+}
+
+.skills__lead {
+  opacity: 0.8;
+}
+
+.skills__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 0;
+}
+
+.skills__group dt {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.skills__group dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.skills__chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.skills__project {
+  max-width: 640px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.skills__project p {
+  margin: 0 0 14px;
+}
+
+.skills__project ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding-left: 20px;
+  opacity: 0.85;
+}
+
+@media (max-width: 999px) {
+  .skills {
+    gap: 72px;
+    padding: 160px 0 80px;
+  }
+  .skills__block {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .skills .section-text {
+    position: static;
+  }
+}
+
+/* company marks (not full-bleed tiles) sit inside the white tile with some air around them */
+.journey__logo--mark img {
+  padding: 15%;
+  border-radius: 0;
 }
